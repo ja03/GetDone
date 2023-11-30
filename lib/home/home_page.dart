@@ -179,7 +179,9 @@ class _HomepageState extends State<Homepage> {
                       width: 25,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/workspaces/create');
+                      },
                       child: Container(
                         height: 150,
                         width: 120,

@@ -43,7 +43,9 @@ class Workspaces extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/workspaces/create');
+                      },
                       child: Container(
                         height: 180,
                         width: 180,
@@ -67,7 +69,10 @@ class Workspaces extends StatelessWidget {
                       width: 20,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, '/workspaces/workspace-details');
+                      },
                       child: Container(
                         height: 180,
                         width: 180,
