@@ -24,6 +24,9 @@ import 'task/future_focus.dart';
 
 //--------Workspaces Pages----------//
 import 'workspace/workspaces.dart';
+import 'workspace/create_workspace.dart';
+import 'workspace/workspace_details.dart';
+
 // import 'authentication/registration_screen.dart';
 // import 'home/home_screen.dart';
 // import 'home/home_detail_screen.dart';
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/registration',
+      initialRoute: '/home',
       routes: {
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),
@@ -60,6 +63,8 @@ class MyApp extends StatelessWidget {
         '/tasks/close-call': (context) => CloseCall(),
         '/tasks/future-focus': (context) => FutureFocus(),
         '/workspaces': (context) => Workspaces(),
+        '/workspaces/create': (context) => CreateWorkspace(),
+        '/workspaces/workspace-details': (context) => WorkspaceDets(),
         // '/profile': (context) => ProfileScreen(),
         // '/profile/settings': (context) => ProfileSettingsScreen(),
         // '/tasks': (context) => TasksScreen(),

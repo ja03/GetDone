@@ -47,7 +47,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: 30,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 38),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -71,8 +71,8 @@ class _EditProfileState extends State<EditProfile> {
                     height: 20,
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: "Name",
@@ -86,8 +86,8 @@ class _EditProfileState extends State<EditProfile> {
                     height: 10,
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         label: Text("Email"),
@@ -103,7 +103,8 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20.0, left: 35.0, right: 35.0),
+                    padding:
+                        EdgeInsets.only(top: 20.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: "Password",
