@@ -33,51 +33,56 @@ class CloseCall extends StatelessWidget {
             title:
                 Text("Close-cell tasks", style: TextStyle(color: Colors.black)),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 34),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-
-                    //the header title
+          body: Center(
+            child: Container(
+              width: 500,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 34),
+                  child: Column(
                     children: [
-                      Row(
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+              
+                        //the header title
                         children: [
-                          Text(
-                            "it's time to make your tasks Soar",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          Row(
+                            children: [
+                              Text(
+                                "it's time to make your tasks Soar",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+              
+                          // ListView.builder for dynamic tasks
+                          ListView.builder(
+                            itemCount: tasks.length * 5,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final taskIndex = index % tasks.length;
+                              return Column(
+                                children: [
+                                  TaskItem(task: tasks[taskIndex]),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      // ListView.builder for dynamic tasks
-                      ListView.builder(
-                        itemCount: tasks.length * 5,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final taskIndex = index % tasks.length;
-                          return Column(
-                            children: [
-                              TaskItem(task: tasks[taskIndex]),
-                              SizedBox(
-                                height: 10,
-                              )
-                            ],
-                          );
-                        },
-                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
