@@ -23,364 +23,369 @@ class _HomepageState extends State<Homepage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Row(
+          child: Center(
+            child: Container(
+              width: 500,
+              child: Column(
                 children: [
                   SizedBox(
-                    width: 20,
+                    height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        "Hello Ahmad",
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
+                      SizedBox(
+                        width: 20,
                       ),
-                      Text(
-                        "Thrilled to Have you Here!",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 170,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          IconButton(
-                            icon: Icon(Icons.account_circle_outlined),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/profile');
-                            },
+                          Text(
+                            "Hello Ahmad",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.add_circle_outline),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/tasks/create');
-                            },
+                          Text(
+                            "Thrilled to Have you Here!",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 170,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.account_circle_outlined),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/profile');
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.add_circle_outline),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/tasks/create');
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Close-Call Tasks",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 200,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/tasks/close-call');
+                            },
+                            child: Text("See More"),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 240,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              //the header title
+                              children: [
+                                // ListView.builder for dynamic tasks
+                                ListView.builder(
+                                  itemCount: tasks.length * 5,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final taskIndex = index % tasks.length;
+                                    return Column(
+                                      children: [
+                                        TaskItem(task: tasks[taskIndex]),
+                                        SizedBox(
+                                          height: 16,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Workspaces",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 250,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/workspaces');
+                            },
+                            child: Text("See More"),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 25,
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 150,
+                            width: 120,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), // Adjust the radius as needed
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "Create new\nWorkspace",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )),
+                              color: Color.fromARGB(200, 108, 123, 149),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), // Adjust the radius as needed
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "10 Tasks\n\nOperating System\nCollege Workspace",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              )),
+                              color: Color.fromARGB(199, 211, 217, 226),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), // Adjust the radius as needed
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "10 Tasks\n\nOperating System\nCollege Workspace",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              )),
+                              color: Color.fromARGB(199, 211, 217, 226),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            print("olaaa");
+                          },
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), // Adjust the radius as needed
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "10 Tasks\n\nOperating System\nCollege Workspace",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              )),
+                              color: Color.fromARGB(199, 211, 217, 226),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Future Focus",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 250,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/tasks/future-focus');
+                            },
+                            child: Text("See More"),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 240,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              //the header title
+                              children: [
+                                // ListView.builder for dynamic tasks
+                                ListView.builder(
+                                  itemCount: tasks.length * 5,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    final taskIndex = index % tasks.length;
+                                    return Column(
+                                      children: [
+                                        TaskItem(task: tasks[taskIndex]),
+                                        SizedBox(
+                                          height: 10,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/tasks/create');
+                    },
+                    child: Text(
+                      "Create new task",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 20,
+                          color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(
+                              200, 108, 123, 149)), // Change button color
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15.0), // Change corner radius
+                        ),
+                      ),
+              
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
+                        // Adjust size by changing the values
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  )
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Close-Call Tasks",
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 200,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/tasks/close-call');
-                        },
-                        child: Text("See More"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 240,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          //the header title
-                          children: [
-                            // ListView.builder for dynamic tasks
-                            ListView.builder(
-                              itemCount: tasks.length * 5,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final taskIndex = index % tasks.length;
-                                return Column(
-                                  children: [
-                                    TaskItem(task: tasks[taskIndex]),
-                                    SizedBox(
-                                      height: 16,
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Workspaces",
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 250,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/workspaces');
-                        },
-                        child: Text("See More"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 25,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 150,
-                        width: 120,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                          ),
-                          child: Center(
-                              child: Text(
-                            "Create new\nWorkspace",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          )),
-                          color: Color.fromARGB(200, 108, 123, 149),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                          ),
-                          child: Center(
-                              child: Text(
-                            "10 Tasks\n\nOperating System\nCollege Workspace",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          )),
-                          color: Color.fromARGB(199, 211, 217, 226),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                          ),
-                          child: Center(
-                              child: Text(
-                            "10 Tasks\n\nOperating System\nCollege Workspace",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          )),
-                          color: Color.fromARGB(199, 211, 217, 226),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        print("olaaa");
-                      },
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0), // Adjust the radius as needed
-                          ),
-                          child: Center(
-                              child: Text(
-                            "10 Tasks\n\nOperating System\nCollege Workspace",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          )),
-                          color: Color.fromARGB(199, 211, 217, 226),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Future Focus",
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 250,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/tasks/future-focus');
-                        },
-                        child: Text("See More"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 240,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          //the header title
-                          children: [
-                            // ListView.builder for dynamic tasks
-                            ListView.builder(
-                              itemCount: tasks.length * 5,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final taskIndex = index % tasks.length;
-                                return Column(
-                                  children: [
-                                    TaskItem(task: tasks[taskIndex]),
-                                    SizedBox(
-                                      height: 10,
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/tasks/create');
-                },
-                child: Text(
-                  "Create new task",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w100,
-                      fontSize: 20,
-                      color: Colors.white),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromARGB(
-                          200, 108, 123, 149)), // Change button color
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(15.0), // Change corner radius
-                    ),
-                  ),
-
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
-                    // Adjust size by changing the values
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              )
-            ],
+            ),
           ),
         ),
       ),
