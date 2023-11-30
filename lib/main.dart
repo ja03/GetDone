@@ -26,6 +26,7 @@ import 'task/future_focus.dart';
 import 'workspace/workspaces.dart';
 import 'workspace/create_workspace.dart';
 import 'workspace/workspace_details.dart';
+import 'workspace/edit_workspace.dart';
 
 // import 'authentication/registration_screen.dart';
 // import 'home/home_screen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         '/workspaces': (context) => Workspaces(),
         '/workspaces/create': (context) => CreateWorkspace(),
         '/workspaces/workspace-details': (context) => WorkspaceDets(),
+        '/workspaces/edit-worspace': (context) => EditWorkspace(),
         // '/profile': (context) => ProfileScreen(),
         // '/profile/settings': (context) => ProfileSettingsScreen(),
         // '/tasks': (context) => TasksScreen(),
