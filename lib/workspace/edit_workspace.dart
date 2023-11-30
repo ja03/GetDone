@@ -80,7 +80,7 @@ class _EditWorkspaceState extends State<EditWorkspace> {
                   Navigator.pushNamed(context, '/workspaces/workspace-details');
                 },
                 child: Text(
-                  "Create Workspace",
+                  "Save changes",
                   style: TextStyle(
                       fontWeight: FontWeight.w100,
                       fontSize: 18,
