@@ -58,11 +58,15 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.account_circle_outlined),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/profile');
+                            },
                           ),
                           IconButton(
                             icon: Icon(Icons.add_circle_outline),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/tasks/create');
+                            },
                           ),
                         ],
                       ),
@@ -90,7 +94,9 @@ class _HomepageState extends State<Homepage> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/tasks/close-call');
+                        },
                         child: Text("See More"),
                       ),
                     )
@@ -155,7 +161,9 @@ class _HomepageState extends State<Homepage> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/workspaces');
+                        },
                         child: Text("See More"),
                       ),
                     )
@@ -291,7 +299,9 @@ class _HomepageState extends State<Homepage> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/tasks/future-focus');
+                        },
                         child: Text("See More"),
                       ),
                     )
@@ -340,7 +350,9 @@ class _HomepageState extends State<Homepage> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/tasks/create');
+                },
                 child: Text(
                   "Create new task",
                   style: TextStyle(

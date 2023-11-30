@@ -12,6 +12,18 @@ import 'registration/reset_pass.dart';
 
 //--------Home Pages----------//
 import 'home/home_page.dart';
+
+//--------Profile Pages----------//
+import 'profile/user_profile.dart';
+import 'profile/edit_profile.dart';
+
+//--------Tasks Pages----------//
+import 'task/create_task.dart';
+import 'task/close_call.dart';
+import 'task/future_focus.dart';
+
+//--------Workspaces Pages----------//
+import 'workspace/workspaces.dart';
 // import 'authentication/registration_screen.dart';
 // import 'home/home_screen.dart';
 // import 'home/home_detail_screen.dart';
@@ -42,7 +54,12 @@ class MyApp extends StatelessWidget {
         '/registration/confirmCode': (context) => ConfirmCode(),
         '/registration/resetPass': (context) => ResetPass(),
         '/home': (context) => Homepage(),
-        // '/home/detail': (context) => HomeDetailScreen(),
+        '/profile': (context) => UserProfile(),
+        '/profile/edit': (context) => EditProfile(),
+        '/tasks/create': (context) => CreateTask(),
+        '/tasks/close-call': (context) => CloseCall(),
+        '/tasks/future-focus': (context) => FutureFocus(),
+        '/workspaces': (context) => Workspaces(),
         // '/profile': (context) => ProfileScreen(),
         // '/profile/settings': (context) => ProfileSettingsScreen(),
         // '/tasks': (context) => TasksScreen(),
