@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/registration',
+      initialRoute: '/home',
       routes: {
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/registration/confirmEmail': (context) => ConfirmEmail(),
         '/registration/confirmCode': (context) => ConfirmCode(),
         '/registration/resetPass': (context) => ResetPass(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => Homepage(),
         // '/home/detail': (context) => HomeDetailScreen(),
         // '/profile': (context) => ProfileScreen(),
         // '/profile/settings': (context) => ProfileSettingsScreen(),
