@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/registration',
+      initialRoute: '/home',
       routes: {
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),
