@@ -43,11 +43,11 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 60,
                   ),
-              
+
                   //Email
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                    padding: const EdgeInsets.only(
+                        top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -71,7 +71,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 10,
                   ),
-              
+
                   //password
                   Padding(
                     padding: const EdgeInsets.only(
@@ -101,15 +101,13 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 10,
                   ),
-              
+
                   //sing in
                   ElevatedButton(
                     onPressed: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   var sb = SnackBar(content: Text("${myController.text}"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(sb);
-                      // }
-                      Navigator.pushNamed(context, '/home');
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushNamed(context, '/home');
+                      }
                     },
                     child: Text(
                       "Log in",
@@ -127,7 +125,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                       ),
-              
+
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 190.0),
                         // Adjust size by changing the values
@@ -137,7 +135,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 10,
                   ),
-              
+
                   //forgot password
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35.0),
@@ -163,7 +161,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 16,
                   ),
-              
+
                   //google & apple button
                   ElevatedButton(
                     onPressed: () {
@@ -178,7 +176,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                       ),
-              
+
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
                         // Adjust size by changing the values
@@ -213,7 +211,7 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                       ),
-              
+
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
                         // Adjust size by changing the values
@@ -232,7 +230,7 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                   ),
-              
+
                   //Create an account
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 45.0),
@@ -244,7 +242,8 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.bottomLeft,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/registration/signup');
+                              Navigator.pushNamed(
+                                  context, '/registration/signup');
                             },
                             child: Text(
                               "Create one",

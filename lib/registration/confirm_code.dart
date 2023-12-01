@@ -66,11 +66,9 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   var sb = SnackBar(content: Text("${myController.text}"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(sb);
-                      // }
-                      Navigator.pushNamed(context, '/registration/resetPass');
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushNamed(context, '/registration/resetPass');
+                      }
                     },
                     child: Text(
                       "Verify my account",
@@ -85,11 +83,11 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                               200, 108, 123, 149)), // Change button color
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Change corner radius
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Change corner radius
                         ),
                       ),
-              
+
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
                         // Adjust size by changing the values

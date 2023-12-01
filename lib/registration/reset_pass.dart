@@ -45,7 +45,7 @@ class _ResetPassState extends State<ResetPass> {
                         borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      hintText: "enter your Email",
+                      hintText: "new password",
                       filled: false,
                     ),
                     validator: (value) {
@@ -72,7 +72,7 @@ class _ResetPassState extends State<ResetPass> {
                         borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(16.0),
                       ),
-                      hintText: "enter your Email",
+                      hintText: "confirm password",
                       filled: false,
                     ),
                     validator: (value) {
@@ -90,16 +90,9 @@ class _ResetPassState extends State<ResetPass> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // if (_formKey.currentState!.validate()) {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     SnackBar(
-                    //       content:
-                    //           Text("Password created: ${_passwordController.text}"),
-                    //     ),
-                    //   );
-                    //   // You can add logic here to handle the password creation
-                    // }
-                    Navigator.pushNamed(context, '/registration/login');
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamed(context, '/registration/login');
+                    }
                   },
                   child: const Text(
                     "Create new password",
@@ -110,14 +103,15 @@ class _ResetPassState extends State<ResetPass> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Color.fromARGB(200, 108, 123, 149)), // Change button color
+                        Color.fromARGB(
+                            200, 108, 123, 149)), // Change button color
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(15.0), // Change corner radius
                       ),
                     ),
-            
+
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
                       // Adjust size by changing the values

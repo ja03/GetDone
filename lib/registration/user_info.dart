@@ -44,7 +44,7 @@ class _UserInfoState extends State<UserInfo> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        hintText: "enter your Email",
+                        hintText: "Full Name",
                         filled: false,
                       ),
                       validator: (value) {
@@ -66,7 +66,7 @@ class _UserInfoState extends State<UserInfo> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        hintText: "enter your Email",
+                        hintText: "What industry your in?",
                         filled: false,
                       ),
                       validator: (value) {
@@ -88,23 +88,21 @@ class _UserInfoState extends State<UserInfo> {
                           borderSide: BorderSide(color: Colors.black),
                           borderRadius: BorderRadius.circular(16.0),
                         ),
-                        hintText: "enter your Email",
+                        hintText: "Why are you using the app?",
                         filled: false,
                       ),
                       validator: (value) {
-                        if (value!.length < 30) {
-                          return "Enter atleast 30 leter";
+                        if (value!.length <= 0) {
+                          return "Just tell me why";
                         }
                       },
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   var sb = SnackBar(content: Text("${myController.text}"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(sb);
-                      // }
-                      Navigator.pushNamed(context, '/home');
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushNamed(context, '/home');
+                      }
                     },
                     child: Text(
                       "Create my account",
@@ -119,11 +117,11 @@ class _UserInfoState extends State<UserInfo> {
                               200, 108, 123, 149)), // Change button color
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15.0), // Change corner radius
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Change corner radius
                         ),
                       ),
-              
+
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
                         // Adjust size by changing the values
