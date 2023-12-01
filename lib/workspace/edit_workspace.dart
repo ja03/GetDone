@@ -98,7 +98,7 @@ class _EditWorkspaceState extends State<EditWorkspace> {
                   ),
 
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 180.0),
+                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 155.0),
                     // Adjust size by changing the values
                   ),
                 ),

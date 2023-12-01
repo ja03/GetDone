@@ -1,7 +1,5 @@
-export 'task_item.dart';
-
+export 'workspace_item.dart';
 import 'package:flutter/material.dart';
-import 'package:getdone/task/task_details.dart';
 
 class WorkspaceItem extends StatelessWidget {
   final String tasksNum;

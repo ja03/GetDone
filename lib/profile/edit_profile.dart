@@ -59,7 +59,7 @@ class _EditProfileState extends State<EditProfile> {
                           alignment: Alignment.bottomLeft,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/profile');
+                              Navigator.pop(context);
                             },
                             child: Text("Save Information"),
                           ),

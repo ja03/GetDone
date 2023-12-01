@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getdone/shared/widgets/task_item.dart';
 export 'workspace_details.dart';
 
 class WorkspaceDets extends StatefulWidget {
@@ -9,12 +10,31 @@ class WorkspaceDets extends StatefulWidget {
 }
 
 class _WorkspaceDetsState extends State<WorkspaceDets> {
-  final List<TaskItemData> tasks = [
-    TaskItemData(
-      title: "Data Base",
-      subtitle: "Week one assignment",
-      date: "23rd. Oct. 23",
-    ),
+  final List<Map<String, String>> data = [
+    {
+      "taskName": "Clean the house",
+      "taskWorkspace": "Home work",
+      "taskColor": "red",
+      "taskDeadline": "21/07/2023",
+    },
+    {
+      "taskName": "Finish the assignment",
+      "taskWorkspace": "College course",
+      "taskColor": "blue",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Study OS",
+      "taskWorkspace": "College course",
+      "taskColor": "green",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Make dinner",
+      "taskWorkspace": "Home Work",
+      "taskColor": "gray",
+      "taskDeadline": "22/08/2023",
+    },
   ];
 
   @override
@@ -66,7 +86,7 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                             ],
                           ),
                           SizedBox(
-                            width: 180,
+                            width: 280,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -97,9 +117,12 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 30,
+                                width: 20,
                               ),
-                              Text("Workspace Progress"),
+                              Text(
+                                "Workspace Progress",
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
                           Row(
@@ -118,13 +141,25 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                                             200, 108, 123, 149)),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                child: Text(
-                                  "Completed\n     Tasks",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Completed\n     Tasks",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "16",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
                               ),
                               Container(
@@ -139,13 +174,25 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                                             200, 108, 123, 149)),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                child: Text(
-                                  "Completed\n     Tasks",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "In Progress\n     Tasks",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "10",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
                               ),
                               Container(
@@ -160,75 +207,77 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                                             200, 108, 123, 149)),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                child: Text(
-                                  "Completed\n     Tasks",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Pending\n  Tasks",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      "6",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 24.0,
+                      ),
                       Row(
                         children: [
                           SizedBox(
-                            width: 30,
+                            width: 20,
                           ),
-                          Text("Workspace Tasks"),
+                          Text(
+                            "Workspace Tasks",
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 300,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 34),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  //the header title
-                                  children: [
-                                    // ListView.builder for dynamic tasks
-                                    ListView.builder(
-                                      itemCount: tasks.length * 5,
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        final taskIndex = index % tasks.length;
-                                        return Column(
-                                          children: [
-                                            TaskItem(task: tasks[taskIndex]),
-                                            SizedBox(
-                                              height: 10,
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                      Container(
+                        margin: EdgeInsets.all(16.0),
+                        child: Column(
+                          children: data.map((d) {
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/tasks/task-details');
+                                },
+                                child: TaskItem(
+                                  taskColor: d["taskColor"]!,
+                                  taskName: d["taskName"]!,
+                                  taskDeadline: d["taskDeadline"]!,
+                                  taskWorkspace: d["taskWorkspace"]!,
+                                ));
+                          }).toList(),
                         ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/tasks/create');
+                        },
                         child: Text(
                           "Create new task",
                           style: TextStyle(
                               fontWeight: FontWeight.w100,
-                              fontSize: 20,
+                              fontSize: 18,
                               color: Colors.white),
                         ),
                         style: ButtonStyle(
@@ -246,7 +295,7 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
                           padding:
                               MaterialStateProperty.all<EdgeInsetsGeometry>(
                             EdgeInsets.symmetric(
-                                vertical: 15.0, horizontal: 100.0),
+                                vertical: 16.0, horizontal: 160.0),
                             // Adjust size by changing the values
                           ),
                         ),
@@ -257,80 +306,6 @@ class _WorkspaceDetsState extends State<WorkspaceDets> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TaskItemData {
-  String title;
-  String subtitle;
-  String date;
-
-  TaskItemData({
-    required this.title,
-    required this.subtitle,
-    required this.date,
-  });
-}
-
-class TaskItem extends StatelessWidget {
-  final TaskItemData task;
-
-  const TaskItem({Key? key, required this.task}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        //  button press logic here
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: 512,
-        height: 86,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.black),
-        ),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 13,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(task.title, style: TextStyle(color: Colors.black)),
-                    Text(task.subtitle,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
-                    Row(
-                      children: [
-                        Text(task.date, style: TextStyle(color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );

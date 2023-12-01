@@ -113,8 +113,10 @@ class _UserProfileState extends State<UserProfile> {
                           decoration: BoxDecoration(
                               color: Color.fromARGB(200, 108, 123, 149),
                               border: Border.all(
-                                  color: const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                                  color:
+                                      const Color.fromARGB(200, 108, 123, 149)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
                           child: Text(
                             "Completed\n     Tasks\n        $completedTasks",
                             style: TextStyle(
@@ -133,8 +135,10 @@ class _UserProfileState extends State<UserProfile> {
                           decoration: BoxDecoration(
                               color: Color.fromARGB(200, 108, 123, 149),
                               border: Border.all(
-                                  color: const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                                  color:
+                                      const Color.fromARGB(200, 108, 123, 149)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
                           child: Text(
                             "In Progress\n     Tasks\n        $completedTasks",
                             style: TextStyle(
@@ -153,8 +157,10 @@ class _UserProfileState extends State<UserProfile> {
                           decoration: BoxDecoration(
                               color: Color.fromARGB(200, 108, 123, 149),
                               border: Border.all(
-                                  color: const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                                  color:
+                                      const Color.fromARGB(200, 108, 123, 149)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
                           child: Text(
                             "Pending\n  Tasks\n     $completedTasks",
                             style: TextStyle(
@@ -215,36 +221,36 @@ class _UserProfileState extends State<UserProfile> {
                       ],
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
                       child: TextFormField(
+                        enabled: false,
                         decoration: InputDecoration(
-                          labelText: "Name",
-                          hintText: "Ahmad Mahmoud",
+                          labelText: "Ahamd Mahmoud",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
                       child: TextFormField(
+                        enabled: false,
                         decoration: InputDecoration(
-                          labelText: "Email",
-                          hintText: "ahmadmahmoud@gmail.com",
+                          labelText: "ahmadmahmoud@gmail.com",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
                       child: TextFormField(
+                        enabled: false,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          hintText: "Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15)),
                         ),
@@ -260,14 +266,18 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         Align(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/registration');
+                            },
                             child: Text(
                               "Log out",
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
                         ),
-                        SizedBox(height: 70,)
+                        SizedBox(
+                          height: 70,
+                        )
                       ],
                     ),
                   ],

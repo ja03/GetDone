@@ -90,7 +90,9 @@ class TaskDets extends StatelessWidget {
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.delete_rounded),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
                                 ),
                               ],
                             ),

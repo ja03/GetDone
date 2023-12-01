@@ -95,7 +95,7 @@ class EditTask extends StatelessWidget {
                                           alignment: Alignment.bottomRight,
                                           child: TextButton(
                                             onPressed: () {
-                                              //nothing
+                                              Navigator.pop(context);
                                             },
                                             child: Text(
                                               "Save information",

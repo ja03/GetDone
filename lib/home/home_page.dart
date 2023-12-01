@@ -123,7 +123,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          width: 220,
+                          width: 255,
                         ),
                         Align(
                           alignment: Alignment.bottomLeft,
@@ -172,7 +172,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          width: 250,
+                          width: 280,
                         ),
                         Align(
                           alignment: Alignment.bottomLeft,
@@ -247,7 +247,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          width: 250,
+                          width: 280,
                         ),
                         Align(
                           alignment: Alignment.bottomLeft,
