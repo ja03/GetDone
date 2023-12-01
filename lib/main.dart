@@ -21,21 +21,14 @@ import 'profile/edit_profile.dart';
 import 'task/create_task.dart';
 import 'task/close_call.dart';
 import 'task/future_focus.dart';
+import 'task/task_details.dart';
+import 'task/edit_task.dart';
 
 //--------Workspaces Pages----------//
 import 'workspace/workspaces.dart';
 import 'workspace/create_workspace.dart';
 import 'workspace/workspace_details.dart';
 import 'workspace/edit_workspace.dart';
-
-// import 'authentication/registration_screen.dart';
-// import 'home/home_screen.dart';
-// import 'home/home_detail_screen.dart';
-// import 'profile/profile_screen.dart';
-// import 'profile/profile_settings_screen.dart';
-// import 'tasks/tasks_screen.dart';
-// import 'tasks/create_task_screen.dart';
-// import 'tasks/task_detail_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,25 +56,13 @@ class MyApp extends StatelessWidget {
         '/tasks/create': (context) => CreateTask(),
         '/tasks/close-call': (context) => CloseCall(),
         '/tasks/future-focus': (context) => FutureFocus(),
+        '/tasks/task-details': (context) => TaskDets(),
+        '/tasks/edit': (context) => EditTask(),
         '/workspaces': (context) => Workspaces(),
         '/workspaces/create': (context) => CreateWorkspace(),
         '/workspaces/workspace-details': (context) => WorkspaceDets(),
         '/workspaces/edit-worspace': (context) => EditWorkspace(),
-        // '/profile': (context) => ProfileScreen(),
-        // '/profile/settings': (context) => ProfileSettingsScreen(),
-        // '/tasks': (context) => TasksScreen(),
-        // '/tasks/create': (context) => CreateTaskScreen(),
       },
-      // onGenerateRoute: (settings) {
-      //   if (settings.name == '/tasks/detail') {
-      //     // Extract the task ID from the arguments
-      //     final String taskId = settings.arguments as String;
-      //     return MaterialPageRoute(
-      //       builder: (context) => TaskDetailScreen(taskId: taskId),
-      //     );
-      //   }
-      //   return null;
-      // },
     );
   }
 }

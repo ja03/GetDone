@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:getdone/shared/widgets/task_item.dart';
+import 'package:getdone/shared/widgets/workspace_item.dart';
 export 'home_page.dart';
+
+void handleLClick(c, p) {
+  Navigator.pushNamed(c, p);
+}
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -9,14 +15,39 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final List<TaskItemData> tasks = [
-    TaskItemData(
-      title: "Data Base",
-      subtitle: "Week one assignment",
-      date: "23rd. Oct. 23",
-    ),
+  final List<Map<String, String>> data = [
+    {
+      "taskName": "Clean the house",
+      "taskWorkspace": "Home work",
+      "taskColor": "red",
+      "taskDeadline": "21/07/2023",
+    },
+    {
+      "taskName": "Finish the assignment",
+      "taskWorkspace": "College course",
+      "taskColor": "blue",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Study OS",
+      "taskWorkspace": "College course",
+      "taskColor": "green",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Make dinner",
+      "taskWorkspace": "Home Work",
+      "taskColor": "gray",
+      "taskDeadline": "22/08/2023",
+    },
   ];
 
+  final List<Map<String, String>> workspaceData = [
+    {"workspaceTasks": "10", "workspaceTitle": "Operating System"},
+    {"workspaceTasks": "8", "workspaceTitle": "Frontend Course"},
+    {"workspaceTasks": "5", "workspaceTitle": "House Maintenance"},
+    {"workspaceTasks": "12", "workspaceTitle": "Physics"},
+  ];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,7 +82,7 @@ class _HomepageState extends State<Homepage> {
                         ],
                       ),
                       SizedBox(
-                        width: 170,
+                        width: 220,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -92,7 +123,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          width: 200,
+                          width: 220,
                         ),
                         Align(
                           alignment: Alignment.bottomLeft,
@@ -106,44 +137,26 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 240,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              //the header title
-                              children: [
-                                // ListView.builder for dynamic tasks
-                                ListView.builder(
-                                  itemCount: tasks.length * 5,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final taskIndex = index % tasks.length;
-                                    return Column(
-                                      children: [
-                                        TaskItem(task: tasks[taskIndex]),
-                                        SizedBox(
-                                          height: 16,
-                                        )
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                  // view task cards here
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: data.map((d) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/tasks/task-details');
+                            },
+                            child: TaskItem(
+                              taskColor: d["taskColor"]!,
+                              taskName: d["taskName"]!,
+                              taskDeadline: d["taskDeadline"]!,
+                              taskWorkspace: d["taskWorkspace"]!,
+                            ));
+                      }).toList(),
                     ),
                   ),
+                  // end of tasks here
                   SizedBox(
                     height: 24,
                   ),
@@ -175,113 +188,48 @@ class _HomepageState extends State<Homepage> {
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 25,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/workspaces/create');
-                          },
-                          child: Container(
-                            height: 150,
-                            width: 120,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    15.0), // Adjust the radius as needed
-                              ),
-                              child: Center(
-                                  child: Text(
-                                "Create new\nWorkspace",
-                                style: TextStyle(
-                                  color: Colors.white,
+                    child: Container(
+                      margin: EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, '/workspaces/create');
+                              },
+                              child: Container(
+                                height: 150,
+                                width: 120,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        15.0), // Adjust the radius as needed
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                    "Create new\nWorkspace",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                                  color: Color.fromARGB(200, 108, 123, 149),
                                 ),
                               )),
-                              color: Color.fromARGB(200, 108, 123, 149),
-                            ),
+                          Row(
+                            children: workspaceData.map((d) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        '/workspaces/workspace-details');
+                                  },
+                                  child: WorkspaceItem(
+                                    tasksNum: d["workspaceTasks"]!,
+                                    workspaceName: d["workspaceTitle"]!,
+                                  ));
+                            }).toList(),
                           ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    15.0), // Adjust the radius as needed
-                              ),
-                              child: Center(
-                                  child: Text(
-                                "10 Tasks\n\nOperating System\nCollege Workspace",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              )),
-                              color: Color.fromARGB(199, 211, 217, 226),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    15.0), // Adjust the radius as needed
-                              ),
-                              child: Center(
-                                  child: Text(
-                                "10 Tasks\n\nOperating System\nCollege Workspace",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              )),
-                              color: Color.fromARGB(199, 211, 217, 226),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            print("olaaa");
-                          },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    15.0), // Adjust the radius as needed
-                              ),
-                              child: Center(
-                                  child: Text(
-                                "10 Tasks\n\nOperating System\nCollege Workspace",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              )),
-                              color: Color.fromARGB(199, 211, 217, 226),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -314,44 +262,26 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 240,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              //the header title
-                              children: [
-                                // ListView.builder for dynamic tasks
-                                ListView.builder(
-                                  itemCount: tasks.length * 5,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final taskIndex = index % tasks.length;
-                                    return Column(
-                                      children: [
-                                        TaskItem(task: tasks[taskIndex]),
-                                        SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                  // view task cards here
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: data.map((d) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/tasks/task-details');
+                            },
+                            child: TaskItem(
+                              taskColor: d["taskColor"]!,
+                              taskName: d["taskName"]!,
+                              taskDeadline: d["taskDeadline"]!,
+                              taskWorkspace: d["taskWorkspace"]!,
+                            ));
+                      }).toList(),
                     ),
                   ),
+                  // end of tasks here
                   SizedBox(
                     height: 20,
                   ),
@@ -390,80 +320,6 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TaskItemData {
-  String title;
-  String subtitle;
-  String date;
-
-  TaskItemData({
-    required this.title,
-    required this.subtitle,
-    required this.date,
-  });
-}
-
-class TaskItem extends StatelessWidget {
-  final TaskItemData task;
-
-  const TaskItem({Key? key, required this.task}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        print("Clicked the task");
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        width: 512,
-        height: 86,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.black),
-        ),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 13,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(task.title, style: TextStyle(color: Colors.black)),
-                    Text(task.subtitle,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
-                    Row(
-                      children: [
-                        Text(task.date, style: TextStyle(color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
