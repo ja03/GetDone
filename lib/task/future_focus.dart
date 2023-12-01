@@ -1,23 +1,46 @@
 import 'package:flutter/material.dart';
 export 'future_focus.dart';
+import 'package:getdone/shared/widgets/task_item.dart';
 
-class FutureFocus extends StatelessWidget {
-  FutureFocus({super.key});
+class FutureFocus extends StatefulWidget {
+  const FutureFocus({super.key});
 
-  // Sample data for ListView.builder
-  final List<TaskItemData> tasks = [
-    TaskItemData(
-      title: "Data Base",
-      subtitle: "Week one assignment",
-      date: "23rd. Oct. 23",
-    ),
+  @override
+  State<FutureFocus> createState() => _FutureFocusState();
+}
+
+class _FutureFocusState extends State<FutureFocus> {
+  final List<Map<String, String>> data = [
+    {
+      "taskName": "Clean the house",
+      "taskWorkspace": "Home work",
+      "taskColor": "red",
+      "taskDeadline": "21/07/2023",
+    },
+    {
+      "taskName": "Finish the assignment",
+      "taskWorkspace": "College course",
+      "taskColor": "blue",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Study OS",
+      "taskWorkspace": "College course",
+      "taskColor": "green",
+      "taskDeadline": "22/05/2023",
+    },
+    {
+      "taskName": "Make dinner",
+      "taskWorkspace": "Home Work",
+      "taskColor": "gray",
+      "taskDeadline": "22/08/2023",
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Future Focus",
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -27,137 +50,60 @@ class FutureFocus extends StatelessWidget {
                   context); // This will pop the current route off the navigator stack
             },
           ),
-          backgroundColor: Colors.white,
-          elevation: 0,
           centerTitle: true,
-          title: Text("Future Focus", style: TextStyle(color: Colors.black)),
+          elevation: 0,
+          title: Text(
+            "Future Focus",
+            style: TextStyle(fontSize: 15),
+          ),
         ),
-        body: Center(
-          child: Container(
-            width: 500,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 34),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Column(
+        body: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              width: 500,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 32.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-            
-                      //the header title
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Task Yet to Take Flight!",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-            
-                        // ListView.builder for dynamic tasks
-                        ListView.builder(
-                          itemCount: tasks.length * 4,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final taskIndex = index % tasks.length;
-                            return Column(
-                              children: [
-                                TaskItem(task: tasks[taskIndex]),
-                                SizedBox(
-                                  height: 10,
-                                )
-                              ],
-                            );
-                          },
+                        Text(
+                          "Tasks Yet to Take Flight!",
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  // view task cards here
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: data.map((d) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/tasks/task-details');
+                            },
+                            child: TaskItem(
+                              taskColor: d["taskColor"]!,
+                              taskName: d["taskName"]!,
+                              taskDeadline: d["taskDeadline"]!,
+                              taskWorkspace: d["taskWorkspace"]!,
+                            ));
+                      }).toList(),
+                    ),
+                  ),
+                  // end of tasks here
+                ],
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TaskItemData {
-  String title;
-  String subtitle;
-  String date;
-
-  TaskItemData({
-    required this.title,
-    required this.subtitle,
-    required this.date,
-  });
-}
-
-class TaskItem extends StatelessWidget {
-  final TaskItemData task;
-
-  const TaskItem({Key? key, required this.task}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        //  button press logic here
-      },
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: 512,
-        height: 86,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.black),
-        ),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 13,
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(task.title, style: TextStyle(color: Colors.black)),
-                    Text(task.subtitle,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black)),
-                    Row(
-                      children: [
-                        Text(task.date, style: TextStyle(color: Colors.black)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
