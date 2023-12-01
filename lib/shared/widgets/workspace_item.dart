@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 class WorkspaceItem extends StatelessWidget {
   final String tasksNum;
   final String workspaceName;
+  final double setWidth;
+  final double numFontSize;
+  final double nameFontSize;
 
   WorkspaceItem({
     required this.tasksNum,
     required this.workspaceName,
+    required this.setWidth,
+    required this.numFontSize,
+    required this.nameFontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      width: 150,
+      width: setWidth,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius:
@@ -27,23 +33,23 @@ class WorkspaceItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 140,
+                width: setWidth,
                 child: Text(
                   tasksNum,
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: numFontSize),
                 ),
               ),
               SizedBox(
                 height: 8.0,
               ),
               Container(
-                width: 140,
+                width: setWidth,
                 child: Text(
                   workspaceName,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(color: Colors.black, fontSize: nameFontSize),
                 ),
               ),
             ],

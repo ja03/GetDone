@@ -43,10 +43,22 @@ class _HomepageState extends State<Homepage> {
   ];
 
   final List<Map<String, String>> workspaceData = [
-    {"workspaceTasks": "10", "workspaceTitle": "Operating System"},
-    {"workspaceTasks": "8", "workspaceTitle": "Frontend Course"},
-    {"workspaceTasks": "5", "workspaceTitle": "House Maintenance"},
-    {"workspaceTasks": "12", "workspaceTitle": "Physics"},
+    {
+      "workspaceTasks": "10",
+      "workspaceTitle": "Operating System",
+      "width": "140"
+    },
+    {
+      "workspaceTasks": "8",
+      "workspaceTitle": "Frontend Course",
+      "width": "140"
+    },
+    {
+      "workspaceTasks": "5",
+      "workspaceTitle": "House Maintenance",
+      "width": "140"
+    },
+    {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -225,6 +237,9 @@ class _HomepageState extends State<Homepage> {
                                   child: WorkspaceItem(
                                     tasksNum: d["workspaceTasks"]!,
                                     workspaceName: d["workspaceTitle"]!,
+                                    setWidth: 140,
+                                    nameFontSize: 16,
+                                    numFontSize: 14,
                                   ));
                             }).toList(),
                           ),
