@@ -41,71 +41,73 @@ class _WorkspacesState extends State<Workspaces> {
               ),
             ),
           ),
-          body: Center(
-            child: Container(
-              width: 500,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                    child: Text(
-                      "In the Lab of Productivity",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+                      child: Text(
+                        "In the Lab of Productivity",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/workspaces/create');
-                        },
-                        child: Container(
-                          height: 86,
-                          width: 484,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  15.0), // Adjust the radius as needed
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/workspaces/create');
+                          },
+                          child: Container(
+                            height: 86,
+                            width: 484,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0), // Adjust the radius as needed
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "Create new Workspace",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              )),
+                              color: Color.fromARGB(200, 108, 123, 149),
                             ),
-                            child: Center(
-                                child: Text(
-                              "Create new Workspace",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            )),
-                            color: Color.fromARGB(200, 108, 123, 149),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                    child: Column(
-                      children: workspaceData.map((d) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/workspaces/workspace-details');
-                            },
-                            child: WorkspaceItem(
-                              tasksNum: d["workspaceTasks"]!,
-                              workspaceName: d["workspaceTitle"]!,
-                              setWidth: 484,
-                              nameFontSize: 20,
-                              numFontSize: 18,
-                            ));
-                      }).toList(),
+                      ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                      child: Column(
+                        children: workspaceData.map((d) {
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, '/workspaces/workspace-details');
+                              },
+                              child: WorkspaceItem(
+                                tasksNum: d["workspaceTasks"]!,
+                                workspaceName: d["workspaceTitle"]!,
+                                setWidth: 484,
+                                nameFontSize: 20,
+                                numFontSize: 18,
+                              ));
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )),
