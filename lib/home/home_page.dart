@@ -182,7 +182,7 @@ class _HomepageState extends State<Homepage> {
                           style: TextStyle(
                             fontSize: 16,
                           ),
-                        ),
+                        ), 
                         SizedBox(
                           width: 280,
                         ),

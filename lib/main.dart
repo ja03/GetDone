@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 //--------Registration Pages----------//
 import 'registration/landing.dart';
 import 'registration/welcoming_two.dart';
@@ -30,7 +31,15 @@ import 'workspace/create_workspace.dart';
 import 'workspace/workspace_details.dart';
 import 'workspace/edit_workspace.dart';
 
+// Firebase stuff
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 void main() {
+   // Initialize Firebase
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(MyApp());
 }
 
@@ -40,7 +49,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/home',
+      initialRoute: '/registration',
       routes: {
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),

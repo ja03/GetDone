@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "192096785181",
+    "project_id": "vpproject1-b888e",
+    "storage_bucket": "vpproject1-b888e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192096785181:android:0fcf3afea283969f0407f4",
+        "android_client_info": {
+          "package_name": "com.example.getdone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJAsu3pa93YHe0w21FQAPdDTiUwWvXCFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
