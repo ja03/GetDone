@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 export 'user_info.dart';
 
-class UserInfo extends StatefulWidget {
-  const UserInfo({super.key});
+class UserInformation extends StatefulWidget {
+  const UserInformation({super.key});
 
   @override
-  State<UserInfo> createState() => _UserInfoState();
+  State<UserInformation> createState() => _UserInformationState();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _UserInformationState extends State<UserInformation> {
   var _formKey = GlobalKey<FormState>();
   TextEditingController myController = TextEditingController();
 

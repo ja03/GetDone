@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         '/registration/welcoming': (context) => WelcomingTwo(),
         '/registration/login': (context) => Login(),
         '/registration/signup': (context) => Signup(),
-        '/registration/userInfo': (context) => UserInfo(),
+        '/registration/userInfo': (context) => UserInformation(),
         '/registration/confirmEmail': (context) => ConfirmEmail(),
         '/registration/confirmCode': (context) => ConfirmCode(),
         '/registration/resetPass': (context) => ResetPass(),
