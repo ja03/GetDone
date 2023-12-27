@@ -9,6 +9,7 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
 class Auth{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final auth = FirebaseAuth.instance;
@@ -30,6 +31,17 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
   TextEditingController myController = TextEditingController();
+
+  Future<void> handleLogin() async{
+    try{
+      await Auth().sigInWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
+      print("welcome");
+      Navigator.pushNamed(context, '/registration/confirmEmail');
+
+    }on FirebaseAuthException catch(e){
+      print(e.message);
+    } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +175,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.bottomLeft,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/registration/confirmEmail');
+                              handleLogin();
                             },
                             child: Text(
                               "forgot Password?",
