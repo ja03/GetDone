@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 export 'login.dart';
 
 class Login extends StatefulWidget {
@@ -7,6 +9,21 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+class Auth{
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
+  Future<void> sigInWithEmailAndPassword(
+    {
+      required String email,
+      required String password,
+    }
+  )async{
+    await _auth.signInWithEmailAndPassword(
+      email: email, password: password
+    );
+  }
+}
+
 
 class _LoginState extends State<Login> {
   final _emailController = TextEditingController();

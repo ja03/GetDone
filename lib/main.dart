@@ -47,21 +47,6 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-class Auth{
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final auth = FirebaseAuth.instance;
-  Future<void> sigInWithEmailAndPassword(
-    {
-      required String email,
-      required String password,
-    }
-  )async{
-    await _auth.signInWithEmailAndPassword(
-      email: email, password: password
-    );
-  }
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
