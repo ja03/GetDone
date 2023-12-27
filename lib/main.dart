@@ -33,14 +33,33 @@ import 'workspace/edit_workspace.dart';
 
 // Firebase stuff
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
-void main() {
+Future<void> main() async {
+   // ensureInitialized Flutter
+  WidgetsFlutterBinding.ensureInitialized();
+
    // Initialize Firebase
-  Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   runApp(MyApp());
+}
+
+class Auth{
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
+  Future<void> sigInWithEmailAndPassword(
+    {
+      required String email,
+      required String password,
+    }
+  )async{
+    await _auth.signInWithEmailAndPassword(
+      email: email, password: password
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
