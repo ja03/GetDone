@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 export 'signup.dart';
 
 class Signup extends StatefulWidget {
@@ -8,10 +9,40 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
+class Auth{
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final auth = FirebaseAuth.instance;
+  Future createUserWithEmailAndPassword(
+    {
+      required String email,
+      required String password,
+    }
+  )async{
+    await _auth.createUserWithEmailAndPassword(
+      email: email, password: password
+    );
+  }
+}
+
 class _SignupState extends State<Signup> {
-  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController myController = TextEditingController();
+
+  final Auth _auth = Auth(); // Create an instance of the Auth class
+
+  Future registerWithEmailAndPassword()async{
+    try{
+      await Auth().createUserWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
+      print("welcome");
+      Navigator.pushNamed(context, '/registration/confirmEmail');
+
+    }on FirebaseAuthException catch(e){
+      print(e.message);
+    } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +86,8 @@ class _SignupState extends State<Signup> {
                         filled: false,
                       ),
                       validator: (value) {
-                        if (value!.isEmpty || !value.contains("@")) {
-                          return "Enter your email correctly.";
+                        if (value!.isEmpty) {
+                          return "pleas enter your E-mail";
                         }
                       },
                     ),
@@ -116,8 +147,10 @@ class _SignupState extends State<Signup> {
 
                   ElevatedButton(
                     onPressed: () {
+                      // Add your sign-up logic here
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/registration/userInfo');
+                        dynamic result =  _auth.createUserWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
+                        print("signed up");
                       }
                     },
                     child: Text(
