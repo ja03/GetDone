@@ -9,18 +9,20 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
-class Auth{
+class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static final auth = FirebaseAuth.instance;
-  Future createUserWithEmailAndPassword(
-    {
-      required String email,
-      required String password,
+  Future createWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      print("Error creating user: ${e.message}");
     }
-  )async{
-    await _auth.createUserWithEmailAndPassword(
-      email: email, password: password
-    );
   }
 }
 
@@ -33,16 +35,20 @@ class _SignupState extends State<Signup> {
 
   final Auth _auth = Auth(); // Create an instance of the Auth class
 
-  Future registerWithEmailAndPassword()async{
-    try{
-      await Auth().createUserWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
-      print("welcome");
-      Navigator.pushNamed(context, '/registration/confirmEmail');
-
-    }on FirebaseAuthException catch(e){
-      print(e.message);
-    } 
+  Future handleSignup() async {
+  try {
+    await Auth().createWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ).whenComplete(() {
+      print("User add success");
+      Navigator.pushNamed(context, "/registration/userInfo");
+    });
+  } on FirebaseAuthException catch (e) {
+    print(e.toString());
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +80,7 @@ class _SignupState extends State<Signup> {
                     padding: const EdgeInsets.only(
                         top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
+                      controller: _emailController, //Assign this controller to capture the user input
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0),
@@ -149,8 +156,11 @@ class _SignupState extends State<Signup> {
                     onPressed: () {
                       // Add your sign-up logic here
                       if (_formKey.currentState!.validate()) {
-                        dynamic result =  _auth.createUserWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
+                        dynamic result = _auth.createWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text);
                         print("signed up");
+                        Navigator.pushNamed(context, "/registration/userInfo");
                       }
                     },
                     child: Text(
@@ -260,7 +270,7 @@ class _SignupState extends State<Signup> {
                           height: 24,
                         ),
                         SizedBox(width: 4),
-                        Text('Sign in with Google'),
+                        Text('Sign in with Apple'),
                       ],
                     ),
                   ),

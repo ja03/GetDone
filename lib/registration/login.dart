@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 export 'login.dart';
 
 class Login extends StatefulWidget {
@@ -12,16 +11,20 @@ class Login extends StatefulWidget {
 
 class Auth{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final auth = FirebaseAuth.instance;
-  Future<void> sigInWithEmailAndPassword(
+  // final auth = FirebaseAuth.instance;
+  Future<UserCredential?> signInWithEmailAndPassword(
     {
       required String email,
       required String password,
     }
   )async{
-    await _auth.signInWithEmailAndPassword(
-      email: email, password: password
-    );
+    try {
+      return await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      print("Error signing in: $e");
+      return null;
+    }
   }
 }
 
@@ -30,17 +33,27 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
-  TextEditingController myController = TextEditingController();
+  // TextEditingController myController = TextEditingController();
 
-  Future<void> handleLogin() async{
-    try{
-      await Auth().sigInWithEmailAndPassword(email:  _emailController.text, password: _passwordController.text);
-      print("welcome");
-      Navigator.pushNamed(context, '/registration/confirmEmail');
+  Future<void> handleLogin() async {
+    try {
+      UserCredential? userCredential =
+          await Auth().signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
-    }on FirebaseAuthException catch(e){
-      print(e.message);
-    } 
+      if (userCredential != null) {
+        // Successfully signed in, navigate to the desired screen.
+        print("Welcome, ${userCredential.user?.email}");
+        Navigator.pushNamed(context, '/home');
+      } else {
+        // Handle unsuccessful sign-in.
+        print("Invalid credentials");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
 
   @override
@@ -78,6 +91,9 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(
                         top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
+                      // onChanged: (val){
+                      //   setState(() => email.value);
+                      // },
                       controller: _emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -120,7 +136,7 @@ class _LoginState extends State<Login> {
                         filled: false,
                       ),
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.length < 8) {
                           return "pleas enter your Password";
                         }
                         return null;
@@ -133,9 +149,9 @@ class _LoginState extends State<Login> {
 
                   //sing in
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/home');
+                        handleLogin();
                       }
                     },
                     child: Text(
@@ -178,7 +194,7 @@ class _LoginState extends State<Login> {
                               handleLogin();
                             },
                             child: Text(
-                              "forgot Password?",
+                              "Forgot Password?",
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
@@ -254,7 +270,7 @@ class _LoginState extends State<Login> {
                           height: 24,
                         ),
                         SizedBox(width: 4),
-                        Text('Sign in with Google'),
+                        Text('Sign in with Apple'),
                       ],
                     ),
                   ),
