@@ -1,5 +1,8 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:getdone/shared/widgets/user_detailse.dart';
 export 'signup.dart';
 
 class Signup extends StatefulWidget {
@@ -11,7 +14,8 @@ class Signup extends StatefulWidget {
 
 class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future createWithEmailAndPassword({
+
+  Future<void> createWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -22,288 +26,257 @@ class Auth {
       );
     } on FirebaseAuthException catch (e) {
       print("Error creating user: ${e.message}");
+      rethrow;
     }
   }
 }
 
 class _SignupState extends State<Signup> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController myController = TextEditingController();
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _industryController = TextEditingController();
+  final TextEditingController _reasonController = TextEditingController();
 
-  final Auth _auth = Auth(); // Create an instance of the Auth class
+  final Auth _auth = Auth();
+  final DatabaseReference userDbRef = FirebaseDatabase.instance.reference().child("Users");
 
-  Future handleSignup() async {
-  try {
-    await Auth().createWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ).whenComplete(() {
-      print("User add success");
-      Navigator.pushNamed(context, "/registration/userInfo");
-    });
-  } on FirebaseAuthException catch (e) {
-    print(e.toString());
+  Future<void> handleSignup() async {
+    try {
+      await _auth.createWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      Map<dynamic, dynamic> user = {
+        "email": _emailController.text,
+        "password": _passwordController.text,
+        "name": _nameController.text,
+        "industry": _industryController.text,
+        "reason": _reasonController.text,
+      };
+      // UserDetailse user= UserDetailse(
+      //   email: _emailController.text, 
+      //   password: _passwordController.text, 
+      //   name: _nameController.text, 
+      //   industry: _industryController.text, 
+      //   reason: _reasonController.text,
+      //   );
+      final userId = _auth._auth.currentUser!.uid;
+      userDbRef.child(userId).set(user);
+
+      print("User added success to database");
+      Navigator.pushNamed(context, '/home');
+      
+    } on FirebaseAuthException catch (e) {
+      print("Firebase Auth Exception: ${e.message}");
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: Center(
-            child: Container(
-              width: 500,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 30),
-                  Column(
-                    children: [
-                      Image.asset("asset/images/Logo.png"),
-                      Text(
-                        "Your productivity journey begins now!",
-                        style: TextStyle(fontSize: 16),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 35.0, right: 35.0),
-                    child: TextFormField(
-                      controller: _emailController, //Assign this controller to capture the user input
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        hintText: "enter a valid email",
-                        filled: false,
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "pleas enter your E-mail";
-                        }
-                      },
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey1,
+            child: Center(
+              child: Container(
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 30),
+                    Image.asset("asset/images/Logo.png"),
+                    Text(
+                      "Your productivity journey begins now!",
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-
-                  Padding(
-                    padding:
-                        EdgeInsets.only(top: 20.0, left: 35.0, right: 35.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        hintText: "create password",
-                        filled: false,
-                      ),
-                      validator: (value) {
-                        if (value!.length < 8) {
-                          return "Password length should be at least 8";
-                        }
-                        return null;
-                      },
-                      controller: _passwordController,
-                      obscureText: true,
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        hintText: "confirm password",
-                        filled: false,
-                      ),
-                      validator: (value) {
-                        if (value != _passwordController.text) {
-                          return "Passwords do not match";
-                        }
-                        return null;
-                      },
-                      controller: _confirmPasswordController,
-                      obscureText: true,
-                    ),
-                  ),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your sign-up logic here
-                      if (_formKey.currentState!.validate()) {
-                        dynamic result = _auth.createWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text);
-                        print("signed up");
-                        Navigator.pushNamed(context, "/registration/userInfo");
-                      }
-                    },
-                    child: Text(
-                      "Sing Up",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                          fontSize: 18,
-                          color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(
-                              200, 108, 123, 149)), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Change corner radius
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 180.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 45,
-                      ),
-                      Text("Or continue with"),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  //google & apple button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your sign-in logic here
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'asset/images/google-icon.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        SizedBox(width: 4),
-                        Text('Sign in with Google'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your sign-in logic here
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'asset/images/apple-icon.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        SizedBox(width: 4),
-                        Text('Sign in with Apple'),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Already have an account?"),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/registration/login');
-                            },
-                            child: Text(
-                              "Log in",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.black),
+          
+                    Form(
+                      key: _formKey2,
+                      child: Container(
+                        width: 500,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "Enter your email",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Enter your email.";
+                                } else if (!RegExp(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").hasMatch(value)) {
+                                  return "Enter a valid email address.";
+                                }
+                                return null;
+                              },
                             ),
-                          ),
-                        )
-                      ],
+                            SizedBox(height: 15),
+          
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "Create password",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value!.length < 8) {
+                                  return "Password length should be at least 8 characters.";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+          
+                            TextFormField(
+                              controller: _confirmPasswordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "Confirm password",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value != _passwordController.text) {
+                                  return "Passwords do not match.";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+          
+                            TextFormField(
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "Full Name",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Enter Your Full Name.";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+          
+                            TextFormField(
+                              controller: _industryController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "What industry are you in?",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Enter Your Industry.";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+          
+                            TextFormField(
+                              controller: _reasonController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                hintText: "Why are you using the app?",
+                                filled: false,
+                              ),
+                              validator: (value) {
+                                if (value!.length <= 0) {
+                                  return "Just tell me why.";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+          
+                            ElevatedButton(
+                              onPressed: () {
+                                if (_formKey1.currentState!.validate() &&
+                                    _formKey2.currentState!.validate()) {
+                                  handleSignup();
+                                }
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(200, 108, 123, 149),
+                                ),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                ),
+                                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  EdgeInsets.symmetric(vertical: 20.0, horizontal: 180.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

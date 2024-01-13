@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:getdone/shared/widgets/user_detailse.dart';
+// import 'package:getdone/registration/signup.dart';
 export 'edit_profile.dart';
 
 class EditProfile extends StatefulWidget {
@@ -8,16 +11,62 @@ class EditProfile extends StatefulWidget {
   State<EditProfile> createState() => _EditProfileState();
 }
 
+class Auth {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> createWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      print("Error creating user: ${e.message}");
+      rethrow;
+    }
+  }
+} 
+
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  final Auth auth = Auth();
+  final FirebaseService fbs = FirebaseService();
+  UserDetailse? usr;
+  
+
+  @override
+  void initState(){
+    super.initState();
+    if(Auth()._auth.currentUser !=null){
+      print("here.........${Auth()._auth.currentUser}");
+      fatchUserData();
+    }
+  }
+  Future<void> fatchUserData() async{
+    try{
+      UserDetailse? us = await fbs.getUserData();
+      if(us !=null){
+        setState(() {
+          usr = us;
+        });
+      }else{
+        print("User not found");
+      }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    if(usr != null){
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -76,7 +125,8 @@ class _EditProfileState extends State<EditProfile> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: "Name",
-                        hintText: "Ahmad Mahmoud ",
+                        // value: "user!.name",
+                        // hintText: "Ahmad Mahmoud ",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15)),
                       ),
@@ -95,13 +145,9 @@ class _EditProfileState extends State<EditProfile> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15)),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty || !value.contains("@")) {
-                          return "Enter your email correctly.";
-                        }
-                      },
                     ),
                   ),
+
                   Padding(
                     padding:
                         EdgeInsets.only(top: 20.0, left: 35.0, right: 35.0),
@@ -113,16 +159,11 @@ class _EditProfileState extends State<EditProfile> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.length < 8) {
-                          return "Password length should be at least 8";
-                        }
-                        return null;
-                      },
                       controller: _passwordController,
                       obscureText: true,
                     ),
                   ),
+
                   Padding(
                     padding: EdgeInsets.only(
                         top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
@@ -149,7 +190,9 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
         ),
-      ),
-    );
+      );
+    }else{
+      return const Center(child: CircularProgressIndicator(),);
+    }
   }
 }

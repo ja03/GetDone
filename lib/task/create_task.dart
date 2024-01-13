@@ -78,10 +78,10 @@ class _CreateTaskState extends State<CreateTask> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.upload),
+                        suffixIcon: IconButton(   
                           onPressed: () {},
-                        ),
+                          icon: Icon(Icons.upload),
+                        )
                       ),
                     ),
                   ),

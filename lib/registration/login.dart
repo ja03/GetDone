@@ -11,7 +11,6 @@ class Login extends StatefulWidget {
 
 class Auth{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final auth = FirebaseAuth.instance;
   Future<UserCredential?> signInWithEmailAndPassword(
     {
       required String email,
@@ -33,7 +32,6 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
-  // TextEditingController myController = TextEditingController();
 
   Future<void> handleLogin() async {
     try {
@@ -191,7 +189,9 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.bottomLeft,
                           child: TextButton(
                             onPressed: () {
-                              handleLogin();
+                              // handleLogin();
+                              Navigator.pushNamed(
+                                  context, '/registration/confirmEmail');
                             },
                             child: Text(
                               "Forgot Password?",

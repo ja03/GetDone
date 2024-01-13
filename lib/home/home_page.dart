@@ -60,6 +60,18 @@ class _HomepageState extends State<Homepage> {
     },
     {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
+  
+  // Map<dynamic,dynamic>?username;
+  // void fatchUserData()async{
+  //   FirebaseService fbs = FirebaseService();
+  //   Map<dynamic,dynamic> um = await fbs.getUserData();
+  //   if(um!=null){
+  //     usermap = um;
+  //   }else{
+  //     print("user not found");
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,11 +94,17 @@ class _HomepageState extends State<Homepage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Hello Ahmad",
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
+                          Text("Hello Ahmad",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
                           ),
+                          // usermap == null?
+                          // Text("user not found")
+                          // :
+                          // Text("Hello ${usermap![username]}",
+                          // style: TextStyle(
+                          //     fontSize: 17, fontWeight: FontWeight.bold),
+                          // ),
                           Text(
                             "Thrilled to Have you Here!",
                             style: TextStyle(color: Colors.grey),
