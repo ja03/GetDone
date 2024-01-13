@@ -25,6 +25,7 @@ import 'task/future_focus.dart';
 import 'task/task_details.dart';
 import 'task/edit_task.dart';
 
+
 //--------Workspaces Pages----------//
 import 'workspace/workspaces.dart';
 import 'workspace/create_workspace.dart';
@@ -39,6 +40,9 @@ import 'firebase_options.dart';
 Future<void> main() async {
    // ensureInitialized Flutter
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
    // Initialize Firebase
   await Firebase.initializeApp(
@@ -54,8 +58,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/registration',
+      initialRoute: '/home',
       routes: {
+        
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),
         '/registration/login': (context) => Login(),

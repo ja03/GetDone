@@ -11,7 +11,6 @@ class MyParentWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             MyChildWidget(),
-            MyChildWidget(),
           ],
         ),
       ),
@@ -27,8 +26,42 @@ class MyChildWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Task State'),
-          Text('TEXT HERE'),
+          Row(
+            children: [
+              SizedBox(
+                width: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Task state"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Pending",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: 170,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Deadline"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "08\12\2024",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
