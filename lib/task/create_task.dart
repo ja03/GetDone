@@ -8,15 +8,13 @@ class CreateTask extends StatefulWidget {
   State<CreateTask> createState() => _CreateTaskState();
 }
 
-
-
 class _CreateTaskState extends State<CreateTask> {
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController dateController = TextEditingController();
   TextEditingController myController = TextEditingController();
   DateTime selectedDate = DateTime.now();
- 
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -28,18 +26,20 @@ class _CreateTaskState extends State<CreateTask> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-      
+
         dateController.text = '${picked.month}/${picked.day}/${picked.year}';
       });
     }
   }
 
   @override
-   void initState() {
+  void initState() {
     super.initState();
-    
-    dateController.text = '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}';
+
+    dateController.text =
+        '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}';
   }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -146,9 +146,9 @@ class _CreateTaskState extends State<CreateTask> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
                           child: TextFormField(
-                              controller: dateController,
+                            controller: dateController,
                             decoration: InputDecoration(
-                             // hintText: '08/12/2024',
+                              // hintText: '08/12/2024',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide(color: Colors.black),
