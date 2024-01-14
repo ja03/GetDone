@@ -60,7 +60,7 @@ class _HomepageState extends State<Homepage> {
     },
     {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
-  
+
   // Map<dynamic,dynamic>?username;
   // void fatchUserData()async{
   //   FirebaseService fbs = FirebaseService();
@@ -94,9 +94,10 @@ class _HomepageState extends State<Homepage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hello Ahmad",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
+                          Text(
+                            "Hello Ahmad",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
                           ),
                           // usermap == null?
                           // Text("user not found")
@@ -200,7 +201,7 @@ class _HomepageState extends State<Homepage> {
                           style: TextStyle(
                             fontSize: 16,
                           ),
-                        ), 
+                        ),
                         SizedBox(
                           width: 280,
                         ),

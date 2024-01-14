@@ -9,14 +9,12 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class Auth{
+class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<UserCredential?> signInWithEmailAndPassword(
-    {
-      required String email,
-      required String password,
-    }
-  )async{
+  Future<UserCredential?> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       return await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -27,7 +25,6 @@ class Auth{
   }
 }
 
-
 class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,8 +32,7 @@ class _LoginState extends State<Login> {
 
   Future<void> handleLogin() async {
     try {
-      UserCredential? userCredential =
-          await Auth().signInWithEmailAndPassword(
+      UserCredential? userCredential = await Auth().signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
@@ -147,7 +143,7 @@ class _LoginState extends State<Login> {
 
                   //sing in
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         handleLogin();
                       }

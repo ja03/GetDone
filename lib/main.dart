@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 //--------Registration Pages----------//
 import 'registration/landing.dart';
 import 'registration/welcoming_two.dart';
@@ -25,7 +24,6 @@ import 'task/future_focus.dart';
 import 'task/task_details.dart';
 import 'task/edit_task.dart';
 
-
 //--------Workspaces Pages----------//
 import 'workspace/workspaces.dart';
 import 'workspace/create_workspace.dart';
@@ -41,13 +39,13 @@ import 'package:file_picker/file_picker.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-   // ensureInitialized Flutter
+  // ensureInitialized Flutter
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-   // Initialize Firebase
+  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -61,9 +59,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GetDone',
-      initialRoute: '/home',
+      initialRoute: '/registration',
       routes: {
-        
         '/registration': (context) => Landing(),
         '/registration/welcoming': (context) => WelcomingTwo(),
         '/registration/login': (context) => Login(),
