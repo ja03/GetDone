@@ -32,7 +32,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Future<Map<dynamic, dynamic>?> fetchUserData() async {
-    FirebaseService2 fbs = FirebaseService2();
+    FirebaseService fbs = FirebaseService();
     return await fbs.getUserData();
   }
 
