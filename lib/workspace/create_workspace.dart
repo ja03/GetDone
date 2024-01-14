@@ -16,7 +16,8 @@ class Auth {
     try {
       CollectionReference _collectionRef =
           FirebaseFirestore.instance.collection("workspaces");
-      await _collectionRef.add({"name": name, "reason": reason, "tasksNum": 0});
+      await _collectionRef
+          .add({"name": name, "reason": reason, "tasksNum": 0.toString()});
     } catch (e) {
       print(e);
     }
