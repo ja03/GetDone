@@ -1,30 +1,8 @@
 import 'package:flutter/material.dart';
-export 'create_task.dart';
 import 'package:provider/provider.dart';
-
-class Task {
-  String taskName;
-  // String taskDescription;
-  // String taskWorkspace;
-  String taskDeadline;
-  String taskColor;
-
-  Task({
-    required this.taskName,
-    // required this.taskDescription,
-    // required this.taskWorkspace,
-    required this.taskDeadline,
-    required this.taskColor,
-  });
-
-  Task.withDefaults()
-      : taskName = "",
-        //    taskDescription = "",
-        //    taskWorkspace = "",
-        taskColor =
-            "red", // Set default color, you can change this based on user selection
-        taskDeadline = "";
-}
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+export 'create_task.dart';
 
 class CreateTask extends StatefulWidget {
   const CreateTask({super.key});
@@ -33,50 +11,53 @@ class CreateTask extends StatefulWidget {
   State<CreateTask> createState() => _CreateTaskState();
 }
 
-class _CreateTaskState extends State<CreateTask> {
-  var _formKey = GlobalKey<FormState>();
-
-  TextEditingController dateController = TextEditingController();
-  TextEditingController myController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  Task newTask = Task.withDefaults();
-  String selectedColor = "red";
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-
-        dateController.text = '${picked.month}/${picked.day}/${picked.year}';
-        newTask.taskDeadline = dateController.text;
-      });
+class Auth {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> createUserWorkspace(String name, String reason) async {
+    try {
+      CollectionReference _collectionRef =
+          FirebaseFirestore.instance.collection("workspaces");
+      await _collectionRef
+          .add({"name": name, "reason": reason, "tasksNum": 0.toString()});
+    } catch (e) {
+      print(e);
     }
   }
 
-  void _addTaskToCloseCall(Task newTask, List<Map<String, String>> data) {
-    setState(() {
-      data.add({
-        "taskName": newTask.taskName,
-        // "taskWorkspace": "Default Workspace", // Replace with your default workspace
-        "taskColor": newTask.taskColor,
-        "taskDeadline": newTask.taskDeadline,
+  Future<void> createTask(String title, String description,
+      String workspaceName, String state) async {
+    try {
+      CollectionReference _collectionRef =
+          FirebaseFirestore.instance.collection("tasks");
+      await _collectionRef.add({
+        "title": title,
+        "description": description,
+        "workspaceName": workspaceName,
+        "state": state
       });
-    });
+    } catch (e) {
+      print(e);
+    }
   }
+}
 
-  @override
-  void initState() {
-    super.initState();
+class _CreateTaskState extends State<CreateTask> {
+  var _formKey = GlobalKey<FormState>();
 
-    dateController.text =
-        '${selectedDate.month}/${selectedDate.day}/${selectedDate.year}';
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController workspcaeController = TextEditingController();
+  String stateController = " ";
+
+  handleClick() async {
+    Auth auth1 = Auth();
+    String title = titleController.text;
+    String description = descriptionController.text;
+    String workspaceName = workspcaeController.text;
+    String state = stateController;
+    // auth1.createTaskInWorkspace(name, reason);
+    auth1.createTask(title, description, workspaceName, state);
+    Navigator.pushNamed(context, '/workspaces');
   }
 
   Widget build(BuildContext context) {
@@ -109,6 +90,7 @@ class _CreateTaskState extends State<CreateTask> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                     child: TextFormField(
+                      controller: titleController,
                       decoration: InputDecoration(
                         hintText: "Task Name",
                         border: OutlineInputBorder(
@@ -119,7 +101,6 @@ class _CreateTaskState extends State<CreateTask> {
                         if (value!.isEmpty) {
                           return "Task name can't be empty.";
                         }
-                        newTask.taskName = value;
                         return null;
                       },
                     ),
@@ -127,6 +108,7 @@ class _CreateTaskState extends State<CreateTask> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                     child: TextFormField(
+                      controller: descriptionController,
                       decoration: InputDecoration(
                         hintText: "Add a description",
                         border: OutlineInputBorder(
@@ -140,55 +122,18 @@ class _CreateTaskState extends State<CreateTask> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                     child: TextFormField(
+                      controller: workspcaeController,
                       decoration: InputDecoration(
                         hintText: "Select workspace",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down),
-                          onPressed: () {},
-                        ),
+                        // suffixIcon: IconButton(
+                        //   icon: Icon(Icons.keyboard_arrow_down),
+                        //   onPressed: () {},
+                        // ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(40, 10, 40, 0),
-                        child: Text(
-                          'Set a deadline',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
-                          child: TextFormField(
-                            controller: dateController,
-                            decoration: InputDecoration(
-                              // hintText: '08/12/2024',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.calendar_month),
-                                onPressed: () =>
-                                    _selectDate(context), // Pass the context
-                              ),
-                              contentPadding: EdgeInsets.all(16.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                   SizedBox(
                     height: 20,
@@ -219,6 +164,9 @@ class _CreateTaskState extends State<CreateTask> {
                             ),
                             value: 'Pending',
                             onChanged: (newValue) {
+                              setState(() {
+                                stateController = newValue.toString();
+                              });
                               print(newValue);
                             },
                             items: [
@@ -243,84 +191,11 @@ class _CreateTaskState extends State<CreateTask> {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Pick a color"),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedColor = "red";
-                                });
-                              },
-                              child: CircularContainer(
-                                backgroundColor: Colors.red,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: CircleBorder()),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedColor = "blue";
-                                });
-                              },
-                              child: CircularContainer(
-                                backgroundColor: Colors.blue,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: CircleBorder()),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedColor = "green";
-                                });
-                              },
-                              child: CircularContainer(
-                                backgroundColor: Colors.green,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: CircleBorder()),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedColor = "grey";
-                                });
-                              },
-                              child: CircularContainer(
-                                backgroundColor: Colors.grey,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: CircleBorder()),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        newTask.taskName = myController.text;
-                        newTask.taskDeadline = dateController.text;
-                        newTask.taskColor = selectedColor;
-                        _addTaskToCloseCall(newTask,
-                            Provider.of<List<Map<String, String>>>(context));
-
-                        Navigator.pushNamed(context, '/tasks/close-call');
+                        handleClick();
+                        // Navigator.pushNamed(context, '/tasks/close-call');
                       }
                     },
                     child: Text(
@@ -352,37 +227,6 @@ class _CreateTaskState extends State<CreateTask> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CircularContainer extends StatelessWidget {
-  final Color backgroundColor;
-
-  CircularContainer({required this.backgroundColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 16.0,
-      width: 16.0,
-      margin: EdgeInsets.symmetric(horizontal: 4.0),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.white,
-          width: 3.0,
-        ),
-        color: backgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 4,
-            offset: Offset(0, 2), // changes the shadow direction
-          ),
-        ],
       ),
     );
   }
