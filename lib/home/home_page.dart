@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getdone/shared/widgets/task_item.dart';
 import 'package:getdone/shared/widgets/workspace_item.dart';
@@ -44,6 +45,7 @@ class _HomepageState extends State<Homepage> {
     },
   ];
 
+  // Delete Me
   final List<Map<String, String>> workspaceData = [
     {
       "workspaceTasks": "10",
@@ -62,6 +64,18 @@ class _HomepageState extends State<Homepage> {
     },
     {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
+
+  Stream<List<Map<String, dynamic>>> streamDataFromFirestore(
+      String collectionName) {
+    return FirebaseFirestore.instance
+        .collection(collectionName)
+        .snapshots()
+        .map(
+          (QuerySnapshot querySnapshot) => querySnapshot.docs
+              .map((doc) => doc.data() as Map<String, dynamic>)
+              .toList(),
+        );
+  }
 
   late Future<Map<dynamic, dynamic>?> userData;
 
@@ -273,26 +287,50 @@ class _HomepageState extends State<Homepage> {
                                   color: Color.fromARGB(200, 108, 123, 149),
                                 ),
                               )),
-                          Row(
-                            children: workspaceData.map((d) {
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(context,
-                                        '/workspaces/workspace-details');
-                                  },
-                                  child: WorkspaceItem(
-                                    tasksNum: d["workspaceTasks"]!,
-                                    workspaceName: d["workspaceTitle"]!,
-                                    setWidth: 140,
-                                    nameFontSize: 16,
-                                    numFontSize: 14,
-                                  ));
-                            }).toList(),
+                          Container(
+                            child: StreamBuilder<List<Map<String, dynamic>>>(
+                              stream: streamDataFromFirestore('workspaces'),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text('Error: ${snapshot.error}'),
+                                  );
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                List<Map<String, dynamic>> data =
+                                    snapshot.data ?? [];
+                                return Row(
+                                  children: data.map((d) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(context,
+                                            '/workspaces/workspace-details');
+                                      },
+                                      child: WorkspaceItem(
+                                        workspaceName: d["name"],
+                                        tasksNum: (d["tasksNum"]),
+                                        setWidth: 140,
+                                        nameFontSize: 16,
+                                        numFontSize: 14,
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
+
                   SizedBox(
                     height: 24,
                   ),
