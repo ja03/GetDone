@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 export 'create_workspace.dart';
 
 class CreateWorkspace extends StatefulWidget {
@@ -8,9 +10,32 @@ class CreateWorkspace extends StatefulWidget {
   State<CreateWorkspace> createState() => _CreateWorkspaceState();
 }
 
+class Auth {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> createUserWorkspace(String name, String reason) async {
+    try {
+      CollectionReference _collectionRef =
+          FirebaseFirestore.instance.collection("workspaces");
+      await _collectionRef.add({
+        "name": name,
+        "reason": reason,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
 class _CreateWorkspaceState extends State<CreateWorkspace> {
   var _formKey = GlobalKey<FormState>();
-  TextEditingController myController = TextEditingController();
+  final TextEditingController workspacName = TextEditingController();
+  final TextEditingController workspacReason = TextEditingController();
+
+  handleClick() {
+    Auth auth1 = Auth();
+    auth1.createUserWorkspace(
+        workspacName.toString(), workspacReason.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +67,7 @@ class _CreateWorkspaceState extends State<CreateWorkspace> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
                 child: TextFormField(
+                  controller: workspacReason,
                   decoration: InputDecoration(
                     labelText: "Why are you creating ths workpace?",
                     hintText: "Work/ College Course/...",
@@ -62,6 +88,7 @@ class _CreateWorkspaceState extends State<CreateWorkspace> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
                 child: TextFormField(
+                  controller: workspacName,
                   decoration: InputDecoration(
                     labelText: "What do you whant to call it?",
                     hintText: "The Best Workspace In The World!",
@@ -83,7 +110,8 @@ class _CreateWorkspaceState extends State<CreateWorkspace> {
                     const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
                 child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/workspaces');
+                      // Navigator.pushNamed(context, '/workspaces');
+                      handleClick();
                     },
                     child: Text(
                       "Create Workspace",

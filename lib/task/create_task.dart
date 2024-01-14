@@ -137,21 +137,6 @@ class _CreateTaskState extends State<CreateTask> {
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
-                  //   child: TextFormField(
-                  //     decoration: InputDecoration(
-                  //       hintText: "Upload files",
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //       ),
-                  //       suffixIcon: IconButton(
-                  //         icon: Icon(Icons.upload),
-                  //         onPressed: () {},
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                     child: TextFormField(
@@ -208,53 +193,53 @@ class _CreateTaskState extends State<CreateTask> {
                   SizedBox(
                     height: 20,
                   ),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Padding(
-                  //       padding: EdgeInsets.fromLTRB(40, 10, 62, 0),
-                  //       child: Text(
-                  //         'Task State',
-                  //         style: TextStyle(
-                  //           fontWeight: FontWeight.w700,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
-                  //         child: DropdownButtonFormField<String>(
-                  //           decoration: InputDecoration(
-                  //             hintText: 'Pending',
-                  //             border: OutlineInputBorder(
-                  //               borderRadius: BorderRadius.circular(12.0),
-                  //               borderSide: BorderSide(color: Colors.black),
-                  //             ),
-                  //             contentPadding: EdgeInsets.all(16.0),
-                  //           ),
-                  //           value: 'Pending',
-                  //           onChanged: (newValue) {
-                  //             print(newValue);
-                  //           },
-                  //           items: [
-                  //             DropdownMenuItem(
-                  //               value: 'Completed',
-                  //               child: Text('Completed'),
-                  //             ),
-                  //             DropdownMenuItem(
-                  //               value: 'In Progress',
-                  //               child: Text('In Progress'),
-                  //             ),
-                  //             DropdownMenuItem(
-                  //               value: 'Pending',
-                  //               child: Text('Pending'),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(40, 10, 62, 0),
+                        child: Text(
+                          'Task State',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              hintText: 'Pending',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              contentPadding: EdgeInsets.all(16.0),
+                            ),
+                            value: 'Pending',
+                            onChanged: (newValue) {
+                              print(newValue);
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                value: 'Completed',
+                                child: Text('Completed'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'In Progress',
+                                child: Text('In Progress'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Pending',
+                                child: Text('Pending'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   SizedBox(
                     height: 20,
                   ),
