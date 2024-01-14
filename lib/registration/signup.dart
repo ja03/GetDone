@@ -56,13 +56,6 @@ class _SignupState extends State<Signup> {
         "industry": _industryController.text,
         "reason": _reasonController.text,
       };
-      // UserDetailse user= UserDetailse(
-      //   email: _emailController.text, 
-      //   password: _passwordController.text, 
-      //   name: _nameController.text, 
-      //   industry: _industryController.text, 
-      //   reason: _reasonController.text,
-      //   );
       final userId = _auth._auth.currentUser!.uid;
       userDbRef.child(userId).set(user);
 
