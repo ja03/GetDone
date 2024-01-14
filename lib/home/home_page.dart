@@ -17,6 +17,7 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
+//Delete Me
 class _HomepageState extends State<Homepage> {
   final List<Map<String, String>> data = [
     {
@@ -43,26 +44,6 @@ class _HomepageState extends State<Homepage> {
       "taskColor": "gray",
       "taskDeadline": "22/08/2023",
     },
-  ];
-
-  // Delete Me
-  final List<Map<String, String>> workspaceData = [
-    {
-      "workspaceTasks": "10",
-      "workspaceTitle": "Operating System",
-      "width": "140"
-    },
-    {
-      "workspaceTasks": "8",
-      "workspaceTitle": "Frontend Course",
-      "width": "140"
-    },
-    {
-      "workspaceTasks": "5",
-      "workspaceTitle": "House Maintenance",
-      "width": "140"
-    },
-    {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
 
   Stream<List<Map<String, dynamic>>> streamDataFromFirestore(
@@ -189,7 +170,7 @@ class _HomepageState extends State<Homepage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Close-Call Tasks",
+                          "Tasks",
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -201,7 +182,8 @@ class _HomepageState extends State<Homepage> {
                           alignment: Alignment.bottomLeft,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/tasks/close-call');
+                              Navigator.pushNamed(
+                                  context, '/tasks/future-focus');
                             },
                             child: Text("See More"),
                           ),
@@ -209,23 +191,44 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                   ),
-                  // view task cards here
+                  // Change Me
                   Container(
                     margin: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: data.map((d) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/tasks/task-details');
-                            },
-                            child: TaskItem(
-                              taskColor: d["taskColor"]!,
-                              taskName: d["taskName"]!,
-                              taskDeadline: d["taskDeadline"]!,
-                              taskWorkspace: d["taskWorkspace"]!,
-                            ));
-                      }).toList(),
+                    child: StreamBuilder<List<Map<String, dynamic>>>(
+                      stream: streamDataFromFirestore('tasks'),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        }
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        List<Map<String, dynamic>> data = snapshot.data ?? [];
+                        return Column(
+                          children: data.map((d) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: TaskItem(
+                                taskColor: d["blue"] ??
+                                    'blue', // Replace with your default color
+                                taskName: d["title"] ??
+                                    'No Title', // Replace with your default title
+                                taskDeadline: d["state"] ??
+                                    'No State', // Replace with your default state
+                                taskWorkspace: d["workspaceName"] ??
+                                    'No Workspace', // Replace with your default workspace
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      },
                     ),
                   ),
                   // end of tasks here
@@ -315,7 +318,7 @@ class _HomepageState extends State<Homepage> {
                                       },
                                       child: WorkspaceItem(
                                         workspaceName: d["name"],
-                                        tasksNum: (d["tasksNum"]),
+                                        tasksNum: (d["reason"]),
                                         setWidth: 140,
                                         nameFontSize: 16,
                                         numFontSize: 14,
@@ -330,91 +333,6 @@ class _HomepageState extends State<Homepage> {
                       ),
                     ),
                   ),
-
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Future Focus",
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 280,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/tasks/future-focus');
-                            },
-                            child: Text("See More"),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  // view task cards here
-                  Container(
-                    margin: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: data.map((d) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/tasks/task-details');
-                            },
-                            child: TaskItem(
-                              taskColor: d["taskColor"]!,
-                              taskName: d["taskName"]!,
-                              taskDeadline: d["taskDeadline"]!,
-                              taskWorkspace: d["taskWorkspace"]!,
-                            ));
-                      }).toList(),
-                    ),
-                  ),
-                  // end of tasks here
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/tasks/create');
-                    },
-                    child: Text(
-                      "Create new task",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                          fontSize: 20,
-                          color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(
-                              200, 108, 123, 149)), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Change corner radius
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  )
                 ],
               ),
             ),

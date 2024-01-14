@@ -119,7 +119,7 @@ class _WorkspacesState extends State<Workspaces> {
                               },
                               child: WorkspaceItem(
                                 workspaceName: d["name"],
-                                tasksNum: (d["tasksNum"]),
+                                tasksNum: (d["reason"]),
                                 setWidth: 484,
                                 nameFontSize: 20,
                                 numFontSize: 18,
