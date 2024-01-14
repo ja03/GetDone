@@ -11,8 +11,19 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+
+    late Future<Map<dynamic, dynamic>?> userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = fetchUserData();
+  }
+
+  Future<Map<dynamic, dynamic>?> fetchUserData() async {
+    FirebaseService fbs = FirebaseService();
+    return await fbs.getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,69 +80,135 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Name",
-                      // value: "user!.name",
-                      hintText: "Ahmad Mahmoud ",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      label: Text("Email"),
-                      hintText: "ahmadmahmoud@gmail.com",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0, left: 35.0, right: 35.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      hintText: "Password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
+                   Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Name", // Replace with the actual label you want to use
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['name'] ?? '',
+                            );
+                          }
+                        },
                       ),
                     ),
-                    controller: _passwordController,
-                    obscureText: true,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Confirm Password",
-                      hintText: "Password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Email", // Replace with the actual label you want to use
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['email'] ?? '',
+                            );
+                          }
+                        },
                       ),
                     ),
-                    validator: (value) {
-                      if (value != _passwordController.text) {
-                        return "Passwords do not match";
-                      }
-                      return null;
-                    },
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                  ),
-                ),
+                   Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Password", // Replace with the actual label you want to use
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              obscureText: true,
+                              initialValue: snapshot.data?['password'] ?? '',
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 35.0, right: 35.0, bottom: 10.0),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>( 
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText: "Industry",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['industry'] ?? '',
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //       top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       labelText: "Confirm Password",
+                //       hintText: "Password",
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(15),
+                //       ),
+                //     ),
+                //     validator: (value) {
+                //       if (value != _passwordController.text) {
+                //         return "Passwords do not match";
+                //       }
+                //       return null;
+                //     },
+                //     controller: _confirmPasswordController,
+                //     obscureText: true,
+                //   ),
+                // ),
               ],
             ),
           ),

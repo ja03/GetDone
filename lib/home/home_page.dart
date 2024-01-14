@@ -72,7 +72,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   Future<Map<dynamic, dynamic>?> fetchUserData() async {
-    FirebaseService1 fbs = FirebaseService1();
+    FirebaseService fbs = FirebaseService();
     return await fbs.getUserData();
   }
 
