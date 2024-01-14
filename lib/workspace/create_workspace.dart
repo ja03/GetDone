@@ -31,10 +31,12 @@ class _CreateWorkspaceState extends State<CreateWorkspace> {
   final TextEditingController workspacName = TextEditingController();
   final TextEditingController workspacReason = TextEditingController();
 
-  handleClick() {
+  handleClick() async {
     Auth auth1 = Auth();
-    auth1.createUserWorkspace(
-        workspacName.toString(), workspacReason.toString());
+    String name = workspacName.text;
+    String reason = workspacReason.text;
+    auth1.createUserWorkspace(name, reason);
+    Navigator.pushNamed(context, '/workspaces');
   }
 
   @override
