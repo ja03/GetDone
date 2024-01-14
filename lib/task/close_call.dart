@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 export 'close_call.dart';
 import 'package:getdone/shared/widgets/task_item.dart';
+import 'package:provider/provider.dart';
 
 class CloseCall extends StatefulWidget {
   const CloseCall({super.key});
@@ -10,6 +11,7 @@ class CloseCall extends StatefulWidget {
 }
 
 class _CloseCallState extends State<CloseCall> {
+
   final List<Map<String, String>> data = [
     {
       "taskName": "Clean the house",

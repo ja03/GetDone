@@ -1,5 +1,31 @@
 import 'package:flutter/material.dart';
 export 'create_task.dart';
+import 'package:provider/provider.dart';
+
+class Task {
+  String taskName;
+ // String taskDescription;
+ // String taskWorkspace;
+  String taskDeadline;
+  String taskColor;
+  
+
+  Task({
+    required this.taskName,
+   // required this.taskDescription,
+   // required this.taskWorkspace,
+    required this.taskDeadline,
+    required this.taskColor,
+  });
+
+  Task.withDefaults()
+      : taskName = "",
+    //    taskDescription = "",
+    //    taskWorkspace = "",
+        taskColor = "red", // Set default color, you can change this based on user selection
+        taskDeadline = "";
+}
+
 
 class CreateTask extends StatefulWidget {
   const CreateTask({super.key});
@@ -16,6 +42,11 @@ class _CreateTaskState extends State<CreateTask> {
   TextEditingController dateController = TextEditingController();
   TextEditingController myController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  Task newTask = Task.withDefaults();
+  String selectedColor = "red";
+
+
+  
  
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -23,6 +54,7 @@ class _CreateTaskState extends State<CreateTask> {
       initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2050),
+      
     );
 
     if (picked != null && picked != selectedDate) {
@@ -30,8 +62,21 @@ class _CreateTaskState extends State<CreateTask> {
         selectedDate = picked;
       
         dateController.text = '${picked.month}/${picked.day}/${picked.year}';
+        newTask.taskDeadline = dateController.text;
       });
     }
+  }
+
+  void _addTaskToCloseCall(Task newTask,  List<Map<String, String>>  data) {
+    setState(() {  
+
+       data.add({
+        "taskName": newTask.taskName,
+       // "taskWorkspace": "Default Workspace", // Replace with your default workspace
+        "taskColor": newTask.taskColor,
+        "taskDeadline": newTask.taskDeadline,
+      });
+    });
   }
 
   @override
@@ -80,53 +125,39 @@ class _CreateTaskState extends State<CreateTask> {
                         if (value!.isEmpty) {
                           return "Task name can't be empty.";
                         }
+                        newTask.taskName = value;
                         return null;
                       },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Add a description",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 70, horizontal: 10),
-                      ),
                     ),
                   ),
                   // Padding(
                   //   padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                   //   child: TextFormField(
                   //     decoration: InputDecoration(
-                  //       hintText: "Upload files",
+                  //       hintText: "Add a description",
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(15),
+                  //       ),
+                  //       contentPadding:
+                  //           EdgeInsets.symmetric(vertical: 70, horizontal: 10),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
+                  //   child: TextFormField(
+                  //     decoration: InputDecoration(
+                  //       hintText: "Select workspace",
                   //       border: OutlineInputBorder(
                   //         borderRadius: BorderRadius.circular(15),
                   //       ),
                   //       suffixIcon: IconButton(
-                  //         icon: Icon(Icons.upload),
+                  //         icon: Icon(Icons.keyboard_arrow_down),
                   //         onPressed: () {},
                   //       ),
                   //     ),
                   //   ),
                   // ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: "Select workspace",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.keyboard_arrow_down),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -148,7 +179,7 @@ class _CreateTaskState extends State<CreateTask> {
                           child: TextFormField(
                               controller: dateController,
                             decoration: InputDecoration(
-                             // hintText: '08/12/2024',
+                             
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: BorderSide(color: Colors.black),
@@ -168,53 +199,53 @@ class _CreateTaskState extends State<CreateTask> {
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(40, 10, 62, 0),
-                        child: Text(
-                          'Task State',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
-                          child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              hintText: 'Pending',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12.0),
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              contentPadding: EdgeInsets.all(16.0),
-                            ),
-                            value: 'Pending',
-                            onChanged: (newValue) {
-                              print(newValue);
-                            },
-                            items: [
-                              DropdownMenuItem(
-                                value: 'Completed',
-                                child: Text('Completed'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'In Progress',
-                                child: Text('In Progress'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Pending',
-                                child: Text('Pending'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Padding(
+                  //       padding: EdgeInsets.fromLTRB(40, 10, 62, 0),
+                  //       child: Text(
+                  //         'Task State',
+                  //         style: TextStyle(
+                  //           fontWeight: FontWeight.w700,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: EdgeInsets.fromLTRB(120, 0, 40, 0),
+                  //         child: DropdownButtonFormField<String>(
+                  //           decoration: InputDecoration(
+                  //             hintText: 'Pending',
+                  //             border: OutlineInputBorder(
+                  //               borderRadius: BorderRadius.circular(12.0),
+                  //               borderSide: BorderSide(color: Colors.black),
+                  //             ),
+                  //             contentPadding: EdgeInsets.all(16.0),
+                  //           ),
+                  //           value: 'Pending',
+                  //           onChanged: (newValue) {
+                  //             print(newValue);
+                  //           },
+                  //           items: [
+                  //             DropdownMenuItem(
+                  //               value: 'Completed',
+                  //               child: Text('Completed'),
+                  //             ),
+                  //             DropdownMenuItem(
+                  //               value: 'In Progress',
+                  //               child: Text('In Progress'),
+                  //             ),
+                  //             DropdownMenuItem(
+                  //               value: 'Pending',
+                  //               child: Text('Pending'),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -227,7 +258,11 @@ class _CreateTaskState extends State<CreateTask> {
                         Row(
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  selectedColor = "red";
+                                });
+                              },
                               child: CircularContainer(
                                 backgroundColor: Colors.red,
                               ),
@@ -236,7 +271,11 @@ class _CreateTaskState extends State<CreateTask> {
                                   shape: CircleBorder()),
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  selectedColor = "blue";
+                                });
+                              },
                               child: CircularContainer(
                                 backgroundColor: Colors.blue,
                               ),
@@ -245,7 +284,11 @@ class _CreateTaskState extends State<CreateTask> {
                                   shape: CircleBorder()),
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                  setState(() {
+                                    selectedColor = "green";
+                                  });
+                              },
                               child: CircularContainer(
                                 backgroundColor: Colors.green,
                               ),
@@ -254,7 +297,11 @@ class _CreateTaskState extends State<CreateTask> {
                                   shape: CircleBorder()),
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  selectedColor = "grey";
+                                });
+                              },
                               child: CircularContainer(
                                 backgroundColor: Colors.grey,
                               ),
@@ -272,11 +319,15 @@ class _CreateTaskState extends State<CreateTask> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   var sb = SnackBar(content: Text("${myController.text}"));
-                      //   ScaffoldMessenger.of(context).showSnackBar(sb);
-                      // }
-                      Navigator.pushNamed(context, '/home');
+                       if (_formKey.currentState!.validate()) {
+                        newTask.taskName = myController.text;
+                         newTask.taskDeadline = dateController.text;
+                         newTask.taskColor = selectedColor;
+                         _addTaskToCloseCall(newTask, Provider.of<List<Map<String, String>>>(context));
+
+                         Navigator.pushNamed(context, '/tasks/close-call');
+                       }
+                      
                     },
                     child: Text(
                       "Create Taskes",
@@ -342,3 +393,5 @@ class CircularContainer extends StatelessWidget {
     );
   }
 }
+
+
