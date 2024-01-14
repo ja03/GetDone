@@ -17,25 +17,26 @@ class UserDetailse {
     required this.reason,
   });
 
-  //convert UserDetailse object to a map
-  Map<dynamic, dynamic> toMap() {
+  // Convert UserDetailse object to a map
+  Map<String, Object?> toMap() {
     return {
       'Name': name,
       'email': email,
       'password': password,
       'industry': industry,
-      'reason': reason
+      'reason': reason,
     };
   }
 
-  //create UserDetailse object to a map
-  factory UserDetailse.fromMap(Map<dynamic, dynamic> map) {
+  // Create UserDetailse object from a map
+  factory UserDetailse.fromMap(Map<String, dynamic> map) {
     return UserDetailse(
-        email: map['email'],
-        password: map['password'],
-        name: map['Name'],
-        industry: map['industry'],
-        reason: map['reason']);
+      email: map['email'],
+      password: map['password'],
+      name: map['Name'],
+      industry: map['industry'],
+      reason: map['reason'],
+    );
   }
 }
 
@@ -58,43 +59,6 @@ class Auth {
   }
 }
 
-// class FirebaseService1 {
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   final DatabaseReference _database = FirebaseDatabase.instance.reference();
-
-//   Future<Map<dynamic, dynamic>?> getUserData() async {
-//     try {
-//       User? user = _auth.currentUser;
-//       if (user != null) {
-//         DatabaseEvent userDataEvent =
-//             await _database.child('Users').child(user.uid).once();
-
-//         DataSnapshot userDataSnapshot = userDataEvent.snapshot;
-
-//         dynamic userData = userDataSnapshot.value;
-
-//         if (userData != null && userData is Map<dynamic, dynamic>) {
-//           // Assuming 'name' is the key for the user's name
-//           print('UserData Snapshot: ${userDataSnapshot.value}');
-//           dynamic userName = userData['name'];
-
-//           // Return a map with 'username' key for consistency with your UI
-//           return {'name': userName};
-//         } else {
-//           print('User data not found or invalid format.');
-//           return null;
-//         }
-//       } else {
-//         print('User not logged in.');
-//         return null;
-//       }
-//     } catch (e) {
-//       print('Error fetching user data: $e');
-//       return null;
-//     }
-//   }
-// }
-
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _database = FirebaseDatabase.instance.reference();
@@ -116,7 +80,6 @@ class FirebaseService {
           dynamic userPassword = userData['password'];
           dynamic userIndustry = userData['industry'];
 
-          // Return a map with 'username', 'email', 'industry', and 'password' keys for consistency with your UI
           return {
             'name': userName,
             'email': userEmail,

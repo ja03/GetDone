@@ -67,7 +67,7 @@ class _WorkspacesState extends State<Workspaces> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Navigator.pushNamed(context, '/workspaces/create');
+                          Navigator.pushNamed(context, '/workspaces/create');
                         },
                         child: Container(
                           height: 86,
@@ -114,8 +114,8 @@ class _WorkspacesState extends State<Workspaces> {
                           children: data.map((d) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/workspaces/workspace-details');
+                                // Navigator.pushNamed(
+                                //     context, '/workspaces/workspace-details');
                               },
                               child: WorkspaceItem(
                                 workspaceName: d["name"],
