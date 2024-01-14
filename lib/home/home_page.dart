@@ -17,7 +17,6 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
-//Delete Me
 class _HomepageState extends State<Homepage> {
   Stream<List<Map<String, dynamic>>> streamDataFromFirestore(
       String collectionName) {
@@ -149,7 +148,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          width: 255,
+                          width: 280,
                         ),
                         Align(
                           alignment: Alignment.bottomLeft,
