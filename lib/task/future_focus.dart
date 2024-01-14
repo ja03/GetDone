@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-export 'future_focus.dart';
 import 'package:getdone/shared/widgets/task_item.dart';
+export 'future_focus.dart';
 
 class FutureFocus extends StatefulWidget {
   const FutureFocus({super.key});
@@ -10,32 +12,17 @@ class FutureFocus extends StatefulWidget {
 }
 
 class _FutureFocusState extends State<FutureFocus> {
-  final List<Map<String, String>> data = [
-    {
-      "taskName": "Clean the house",
-      "taskWorkspace": "Home work",
-      "taskColor": "red",
-      "taskDeadline": "21/07/2023",
-    },
-    {
-      "taskName": "Finish the assignment",
-      "taskWorkspace": "College course",
-      "taskColor": "blue",
-      "taskDeadline": "22/05/2023",
-    },
-    {
-      "taskName": "Study OS",
-      "taskWorkspace": "College course",
-      "taskColor": "green",
-      "taskDeadline": "22/05/2023",
-    },
-    {
-      "taskName": "Make dinner",
-      "taskWorkspace": "Home Work",
-      "taskColor": "gray",
-      "taskDeadline": "22/08/2023",
-    },
-  ];
+  Stream<List<Map<String, dynamic>>> streamDataFromFirestore(
+      String collectionName) {
+    return FirebaseFirestore.instance
+        .collection(collectionName)
+        .snapshots()
+        .map(
+          (QuerySnapshot querySnapshot) => querySnapshot.docs
+              .map((doc) => doc.data() as Map<String, dynamic>)
+              .toList(),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,20 +70,41 @@ class _FutureFocusState extends State<FutureFocus> {
                   // view task cards here
                   Container(
                     margin: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: data.map((d) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/tasks/task-details');
-                            },
-                            child: TaskItem(
-                              taskColor: d["taskColor"]!,
-                              taskName: d["taskName"]!,
-                              taskDeadline: d["taskDeadline"]!,
-                              taskWorkspace: d["taskWorkspace"]!,
-                            ));
-                      }).toList(),
+                    child: StreamBuilder<List<Map<String, dynamic>>>(
+                      stream: streamDataFromFirestore('tasks'),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        }
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        List<Map<String, dynamic>> data = snapshot.data ?? [];
+                        return Column(
+                          children: data.map((d) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: TaskItem(
+                                taskColor: d["blue"] ??
+                                    'blue', // Replace with your default color
+                                taskName: d["title"] ??
+                                    'No Title', // Replace with your default title
+                                taskDeadline: d["state"] ??
+                                    'No State', // Replace with your default state
+                                taskWorkspace: d["workspaceName"] ??
+                                    'No Workspace', // Replace with your default workspace
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      },
                     ),
                   ),
                   // end of tasks here

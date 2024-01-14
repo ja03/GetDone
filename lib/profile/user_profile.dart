@@ -140,100 +140,6 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 120,
-                          height: 120,
-                          margin: EdgeInsets.all(10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(200, 108, 123, 149),
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Text(
-                            "Completed\n     Tasks\n        $completedTasks",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          width: 120,
-                          height: 120,
-                          margin: EdgeInsets.fromLTRB(10, 5, 0, 5),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(200, 108, 123, 149),
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Text(
-                            "In Progress\n     Tasks\n        $completedTasks",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Container(
-                          width: 120,
-                          height: 120,
-                          margin: EdgeInsets.all(10),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(200, 108, 123, 149),
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(200, 108, 123, 149)),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Text(
-                            "Pending\n  Tasks\n     $completedTasks",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text("Close-Call reminder"),
-                        SizedBox(
-                          width: 240,
-                        ),
-                        Switch(
-                            value: switchVal,
-                            onChanged: (bool newSwitchVal) {
-                              setState(() {
-                                switchVal = newSwitchVal;
-                              });
-                            }),
-                      ],
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 35.0, right: 35.0),
@@ -291,7 +197,7 @@ class _UserProfileState extends State<UserProfile> {
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 35.0, right: 35.0, bottom: 10.0),
-                      child: FutureBuilder<Map<dynamic, dynamic>?>( 
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
                         future: userData,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==

@@ -19,33 +19,6 @@ class Homepage extends StatefulWidget {
 
 //Delete Me
 class _HomepageState extends State<Homepage> {
-  final List<Map<String, String>> data = [
-    {
-      "taskName": "Clean the house",
-      "taskWorkspace": "Home work",
-      "taskColor": "red",
-      "taskDeadline": "21/07/2023",
-    },
-    {
-      "taskName": "Finish the assignment",
-      "taskWorkspace": "College course",
-      "taskColor": "blue",
-      "taskDeadline": "22/05/2023",
-    },
-    {
-      "taskName": "Study OS",
-      "taskWorkspace": "College course",
-      "taskColor": "green",
-      "taskDeadline": "22/05/2023",
-    },
-    {
-      "taskName": "Make dinner",
-      "taskWorkspace": "Home Work",
-      "taskColor": "gray",
-      "taskDeadline": "22/08/2023",
-    },
-  ];
-
   Stream<List<Map<String, dynamic>>> streamDataFromFirestore(
       String collectionName) {
     return FirebaseFirestore.instance
@@ -191,7 +164,6 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                   ),
-                  // Change Me
                   Container(
                     margin: EdgeInsets.all(16.0),
                     child: StreamBuilder<List<Map<String, dynamic>>>(
