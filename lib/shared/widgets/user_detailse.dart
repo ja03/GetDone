@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 export 'user_detailse.dart';
@@ -59,6 +58,43 @@ class Auth {
   }
 }
 
+// class FirebaseService1 {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   final DatabaseReference _database = FirebaseDatabase.instance.reference();
+
+//   Future<Map<dynamic, dynamic>?> getUserData() async {
+//     try {
+//       User? user = _auth.currentUser;
+//       if (user != null) {
+//         DatabaseEvent userDataEvent =
+//             await _database.child('Users').child(user.uid).once();
+
+//         DataSnapshot userDataSnapshot = userDataEvent.snapshot;
+
+//         dynamic userData = userDataSnapshot.value;
+
+//         if (userData != null && userData is Map<dynamic, dynamic>) {
+//           // Assuming 'name' is the key for the user's name
+//           print('UserData Snapshot: ${userDataSnapshot.value}');
+//           dynamic userName = userData['name'];
+
+//           // Return a map with 'username' key for consistency with your UI
+//           return {'name': userName};
+//         } else {
+//           print('User data not found or invalid format.');
+//           return null;
+//         }
+//       } else {
+//         print('User not logged in.');
+//         return null;
+//       }
+//     } catch (e) {
+//       print('Error fetching user data: $e');
+//       return null;
+//     }
+//   }
+// }
+
 class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _database = FirebaseDatabase.instance.reference();
@@ -75,7 +111,6 @@ class FirebaseService {
         dynamic userData = userDataSnapshot.value;
 
         if (userData != null && userData is Map<String, dynamic>) {
-          // The keys for the user's data
           dynamic userName = userData['name'];
           dynamic userEmail = userData['email'];
           dynamic userPassword = userData['password'];
@@ -99,6 +134,19 @@ class FirebaseService {
     } catch (e) {
       print('Error fetching user data: $e');
       return null;
+    }
+  }
+
+  Future<User?> getCurrentUser() async {
+    return _auth.currentUser;
+  }
+
+  Future<void> updateUserData(String userId, UserDetailse userDetailse) async {
+    try {
+      await _database.child('Users').child(userId).update(userDetailse.toMap());
+    } catch (e) {
+      print('Error updating user data: $e');
+      rethrow; // Rethrow the exception to handle it in the calling function
     }
   }
 }
