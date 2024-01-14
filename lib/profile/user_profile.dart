@@ -213,30 +213,6 @@ class _UserProfileState extends State<UserProfile> {
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text("Profile Information"),
-                        SizedBox(
-                          width: 210,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/profile/edit');
-                            },
-                            child: Text(
-                              "Edite Information",
-                              style: TextStyle(
-                                  color: Color.fromARGB(199, 105, 155, 240)),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
                     SizedBox(
                       height: 10,
                     ),

@@ -9,14 +9,12 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class Auth{
+class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<UserCredential?> signInWithEmailAndPassword(
-    {
-      required String email,
-      required String password,
-    }
-  )async{
+  Future<UserCredential?> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       return await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -27,16 +25,51 @@ class Auth{
   }
 }
 
-
 class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
-  Future<void> handleLogin() async {
+  bool isEmailValid = true;
+  bool isPasswordValid = true;
+
+  Future<void> validateEmail() async {
     try {
-      UserCredential? userCredential =
-          await Auth().signInWithEmailAndPassword(
+      UserCredential? userCredential = await Auth().signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text, // Provide a dummy password for validation
+      );
+
+      // If the email is not registered, mark it as invalid
+      isEmailValid = userCredential != null;
+    } catch (e) {
+      // Handle Firebase sign-in errors, e.g., user not found
+      print("Firebase Email Validation Error: $e");
+      isEmailValid = false;
+    }
+  }
+
+  Future<void> validatePassword() async {
+    try {
+      UserCredential? userCredential = await Auth().signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text, // Provide a dummy password for validation
+      );
+
+      // If the email is not registered, mark it as invalid
+      isPasswordValid = userCredential != null;
+    } catch (e) {
+      // Handle Firebase sign-in errors, e.g., user not found
+      print("Firebase Password Validation Error: $e");
+      isPasswordValid = false;
+    }
+  }
+
+  Future<void> handleLogin() async {
+    await validateEmail();
+    await validatePassword();
+    try {
+      UserCredential? userCredential = await Auth().signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
@@ -90,7 +123,7 @@ class _LoginState extends State<Login> {
                         top: 10.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       // onChanged: (val){
-                      //   setState(() => email.value);
+                      //   setState(() =>  _emailController.value);
                       // },
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -108,6 +141,7 @@ class _LoginState extends State<Login> {
                         if (value!.isEmpty || !value.contains("@")) {
                           return "pleas enter your E-mail";
                         }
+                        return isEmailValid ? null : "Undefined email";
                       },
                     ),
                   ),
@@ -137,7 +171,7 @@ class _LoginState extends State<Login> {
                         if (value!.length < 8) {
                           return "pleas enter your Password";
                         }
-                        return null;
+                        return isPasswordValid ? null : "Invalid password";
                       },
                     ),
                   ),
@@ -147,7 +181,7 @@ class _LoginState extends State<Login> {
 
                   //sing in
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         handleLogin();
                       }
@@ -177,102 +211,6 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-
-                  //forgot password
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: TextButton(
-                            onPressed: () {
-                              // handleLogin();
-                              Navigator.pushNamed(
-                                  context, '/registration/confirmEmail');
-                            },
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-
-                  //google & apple button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your sign-in logic here
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'asset/images/google-icon.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        SizedBox(width: 4),
-                        Text('Sign in with Google'),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your sign-in logic here
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.white), // Change button color
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
-
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 140.0),
-                        // Adjust size by changing the values
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'asset/images/apple-icon.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        SizedBox(width: 4),
-                        Text('Sign in with Apple'),
-                      ],
-                    ),
                   ),
 
                   //Create an account

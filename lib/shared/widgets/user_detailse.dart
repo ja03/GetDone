@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 export 'user_detailse.dart';
 
-class UserDetailse{
+class UserDetailse {
   String email;
   String password;
   String name;
@@ -17,25 +17,25 @@ class UserDetailse{
     required this.reason,
   });
 
-  //convert UserDetailse object to a map
-  Map<dynamic, dynamic> toMap(){
-    return{
-      'Name':name,
-      'email':email,
-      'password':password,
-      'industry':industry,
-      'reason':reason
+  // Convert UserDetailse object to a map
+  Map<String, Object?> toMap() {
+    return {
+      'Name': name,
+      'email': email,
+      'password': password,
+      'industry': industry,
+      'reason': reason,
     };
   }
 
-  //create UserDetailse object to a map
-  factory UserDetailse.fromMap(Map<dynamic, dynamic> map){
+  // Create UserDetailse object from a map
+  factory UserDetailse.fromMap(Map<String, dynamic> map) {
     return UserDetailse(
-      email: map['email'], 
-      password: map['password'], 
-      name: map['Name'], 
-      industry: map['industry'], 
-      reason: map['reason']
+      email: map['email'],
+      password: map['password'],
+      name: map['Name'],
+      industry: map['industry'],
+      reason: map['reason'],
     );
   }
 }
@@ -75,14 +75,17 @@ class FirebaseService {
         dynamic userData = userDataSnapshot.value;
 
         if (userData != null && userData is Map<String, dynamic>) {
-          // The keys for the user's data
           dynamic userName = userData['name'];
           dynamic userEmail = userData['email'];
-          dynamic userPassword = userData['password']; 
+          dynamic userPassword = userData['password'];
           dynamic userIndustry = userData['industry'];
 
-          // Return a map with 'username', 'email', 'industry', and 'password' keys for consistency with your UI
-          return {'name': userName, 'email': userEmail, 'industry': userIndustry, 'password': userPassword};
+          return {
+            'name': userName,
+            'email': userEmail,
+            'industry': userIndustry,
+            'password': userPassword
+          };
         } else {
           print('User data not found or invalid format.');
           return null;
@@ -94,6 +97,19 @@ class FirebaseService {
     } catch (e) {
       print('Error fetching user data: $e');
       return null;
+    }
+  }
+
+  Future<User?> getCurrentUser() async {
+    return _auth.currentUser;
+  }
+
+  Future<void> updateUserData(String userId, UserDetailse userDetailse) async {
+    try {
+      await _database.child('Users').child(userId).update(userDetailse.toMap());
+    } catch (e) {
+      print('Error updating user data: $e');
+      rethrow; // Rethrow the exception to handle it in the calling function
     }
   }
 }
