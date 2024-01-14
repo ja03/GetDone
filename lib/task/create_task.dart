@@ -13,16 +13,6 @@ class CreateTask extends StatefulWidget {
 
 class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<void> createUserWorkspace(String name, String reason) async {
-    try {
-      CollectionReference _collectionRef =
-          FirebaseFirestore.instance.collection("workspaces");
-      await _collectionRef
-          .add({"name": name, "reason": reason, "tasksNum": 0.toString()});
-    } catch (e) {
-      print(e);
-    }
-  }
 
   Future<void> createTask(String title, String description,
       String workspaceName, String state) async {
@@ -37,6 +27,34 @@ class Auth {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> addMapObjectToDocument(
+      String workspaceName, Map<String, dynamic> data) async {
+    try {
+      final CollectionReference<Map<String, dynamic>> _collectionRef =
+          FirebaseFirestore.instance.collection('workspaces');
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _collectionRef.where('name', isEqualTo: workspaceName).get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Document with the specified name found, update it
+        String documentId = querySnapshot.docs.first.id;
+        await _collectionRef.doc(documentId).update({
+          'workspaceTasks': FieldValue.arrayUnion([data]),
+        });
+      } else {
+        // Document with the specified name not found, create a new document
+        await _collectionRef.add({
+          'name': workspaceName,
+          'reason': '',
+          'workspaceTasks':
+              data, // Replace 'yourMapField' with the actual field name you want to update
+        });
+      }
+    } catch (e) {
+      print('Error adding map object to document: $e');
     }
   }
 }
@@ -55,8 +73,13 @@ class _CreateTaskState extends State<CreateTask> {
     String description = descriptionController.text;
     String workspaceName = workspcaeController.text;
     String state = stateController;
-    // auth1.createTaskInWorkspace(name, reason);
     auth1.createTask(title, description, workspaceName, state);
+    auth1.addMapObjectToDocument(workspaceName, {
+      'title': title,
+      'description': description,
+      'state': state,
+      'workspaceName': workspaceName,
+    });
     Navigator.pushNamed(context, '/workspaces');
   }
 
