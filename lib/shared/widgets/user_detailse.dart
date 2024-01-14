@@ -60,28 +60,77 @@ class Auth {
   }
 } 
 
-class FirebaseService{
-    User? user =Auth()._auth.currentUser;
-    final DatabaseReference userRef = FirebaseDatabase.instance.ref().child("Users");
-    Future<UserDetailse?> getUserData() async{
-      try{
-        if(user!=null){
-        // var userid = Auth()._auth.currentUser!.uid;
-        DatabaseEvent event = await userRef.child(user!.uid).once();
-        if(event.snapshot.value!= null){
-          Map<dynamic,dynamic> snapMap=event.snapshot.value as dynamic;
-          return UserDetailse.fromMap(snapMap);
-        }else{
-          print("current user is null");
+class FirebaseService1 {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference _database = FirebaseDatabase.instance.reference();
+
+  Future<Map<dynamic, dynamic>?> getUserData() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        DatabaseEvent userDataEvent =
+            await _database.child('Users').child(user.uid).once();
+
+        DataSnapshot userDataSnapshot = userDataEvent.snapshot;
+
+        dynamic userData = userDataSnapshot.value;
+
+        if (userData != null && userData is Map<dynamic, dynamic>) {
+          // Assuming 'name' is the key for the user's name
+          print('UserData Snapshot: ${userDataSnapshot.value}');
+          dynamic userName = userData['name'];
+
+          // Return a map with 'username' key for consistency with your UI
+          return {'name': userName};
+        } else {
+          print('User data not found or invalid format.');
           return null;
         }
-        }else{
-          print("current user is null or not available");
-          return null;
-        } 
-      }catch(e){
-        print(e.toString());
+      } else {
+        print('User not logged in.');
         return null;
       }
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return null;
     }
+  }
+}
+
+class FirebaseService2 {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference _database = FirebaseDatabase.instance.reference();
+
+  Future<Map<String, dynamic>?> getUserData() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        DatabaseEvent userDataEvent =
+            await _database.child('Users').child(user.uid).once();
+
+        DataSnapshot userDataSnapshot = userDataEvent.snapshot;
+
+        dynamic userData = userDataSnapshot.value;
+
+        if (userData != null && userData is Map<String, dynamic>) {
+          // Assuming 'name', 'email', and 'industry' are the keys for the user's data
+          dynamic userName = userData['name'];
+          dynamic userEmail = userData['email'];
+          dynamic userIndustry = userData['industry']; // Include 'industry' field
+
+          // Return a map with 'username', 'email', and 'industry' keys for consistency with your UI
+          return {'name': userName, 'email': userEmail, 'industry': userIndustry};
+        } else {
+          print('User data not found or invalid format.');
+          return null;
+        }
+      } else {
+        print('User not logged in.');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return null;
+    }
+  }
 }
