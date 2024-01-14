@@ -97,21 +97,6 @@ class _CreateTaskState extends State<CreateTask> {
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
-                  //   child: TextFormField(
-                  //     decoration: InputDecoration(
-                  //       hintText: "Upload files",
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //       ),
-                  //       suffixIcon: IconButton(
-                  //         icon: Icon(Icons.upload),
-                  //         onPressed: () {},
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
                     child: TextFormField(

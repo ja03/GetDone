@@ -124,7 +124,7 @@ class _HomepageState extends State<Homepage> {
                                         AnimatedEmoji(
                                           AnimatedEmojis.wave.medium,
                                           size: 30,
-                                          repeat: true,
+                                          repeat: false,
                                         ),
                                       ],
                                     ),

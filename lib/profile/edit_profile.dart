@@ -12,7 +12,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
 
-    late Future<Map<dynamic, dynamic>?> userData;
+  late Future<Map<dynamic, dynamic>?> userData;
 
   @override
   void initState() {
@@ -80,135 +80,110 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(
                   height: 20,
                 ),
-                   Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 35.0, right: 35.0),
-                      child: FutureBuilder<Map<dynamic, dynamic>?>(
-                        future: userData,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error fetching user data');
-                          } else {
-                            return TextFormField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                labelText:
-                                    "Name", // Replace with the actual label you want to use
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              initialValue: snapshot.data?['name'] ?? '',
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 35.0, right: 35.0),
-                      child: FutureBuilder<Map<dynamic, dynamic>?>(
-                        future: userData,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error fetching user data');
-                          } else {
-                            return TextFormField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                labelText:
-                                    "Email", // Replace with the actual label you want to use
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              initialValue: snapshot.data?['email'] ?? '',
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                   Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 35.0, right: 35.0),
-                      child: FutureBuilder<Map<dynamic, dynamic>?>(
-                        future: userData,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error fetching user data');
-                          } else {
-                            return TextFormField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                labelText:
-                                    "Password", // Replace with the actual label you want to use
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              obscureText: true,
-                              initialValue: snapshot.data?['password'] ?? '',
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 35.0, right: 35.0, bottom: 10.0),
-                      child: FutureBuilder<Map<dynamic, dynamic>?>( 
-                        future: userData,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error fetching user data');
-                          } else {
-                            return TextFormField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                labelText: "Industry",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              initialValue: snapshot.data?['industry'] ?? '',
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                // Padding(
-                //   padding: EdgeInsets.only(
-                //       top: 20.0, left: 35.0, right: 35.0, bottom: 20.0),
-                //   child: TextFormField(
-                //     decoration: InputDecoration(
-                //       labelText: "Confirm Password",
-                //       hintText: "Password",
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(15),
-                //       ),
-                //     ),
-                //     validator: (value) {
-                //       if (value != _passwordController.text) {
-                //         return "Passwords do not match";
-                //       }
-                //       return null;
-                //     },
-                //     controller: _confirmPasswordController,
-                //     obscureText: true,
-                //   ),
-                // ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                  child: FutureBuilder<Map<dynamic, dynamic>?>(
+                    future: userData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error fetching user data');
+                      } else {
+                        return TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText:
+                                "Name", // Replace with the actual label you want to use
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          initialValue: snapshot.data?['name'] ?? '',
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                  child: FutureBuilder<Map<dynamic, dynamic>?>(
+                    future: userData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error fetching user data');
+                      } else {
+                        return TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText:
+                                "Email", // Replace with the actual label you want to use
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          initialValue: snapshot.data?['email'] ?? '',
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 35.0, right: 35.0),
+                  child: FutureBuilder<Map<dynamic, dynamic>?>(
+                    future: userData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error fetching user data');
+                      } else {
+                        return TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText:
+                                "Password", // Replace with the actual label you want to use
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          obscureText: true,
+                          initialValue: snapshot.data?['password'] ?? '',
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 10.0, left: 35.0, right: 35.0, bottom: 10.0),
+                  child: FutureBuilder<Map<dynamic, dynamic>?>(
+                    future: userData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error fetching user data');
+                      } else {
+                        return TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: "Industry",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          initialValue: snapshot.data?['industry'] ?? '',
+                        );
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           ),
