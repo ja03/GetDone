@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:getdone/shared/widgets/user_detailse.dart';
 export 'user_profile.dart';
 
 class UserProfile extends StatefulWidget {
@@ -21,6 +22,19 @@ class _UserProfileState extends State<UserProfile> {
   int completedTasks = 26;
 
   bool switchVal = true;
+
+  late Future<Map<dynamic, dynamic>?> userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = fetchUserData();
+  }
+
+  Future<Map<dynamic, dynamic>?> fetchUserData() async {
+    FirebaseService2 fbs = FirebaseService2();
+    return await fbs.getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +67,37 @@ class _UserProfileState extends State<UserProfile> {
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      "Ahmad Mahmoud",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "ahmadmahmoud@gmail.com",
-                      style: TextStyle(color: Colors.grey),
+                    FutureBuilder<Map<dynamic, dynamic>?>(
+                      future: userData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error fetching user data');
+                        } else {
+                          // Access user data from snapshot.data and update UI
+                          String userName =
+                              snapshot.data?['name'] ?? 'Unknown User';
+                          String userEmail =
+                              snapshot.data?['email'] ?? 'No Email';
+                          // Other user data fields...
+
+                          return Column(
+                            children: [
+                              Text(
+                                userName,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                userEmail,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              // Other UI elements displaying user data...
+                            ],
+                          );
+                        }
+                      },
                     ),
                     Row(
                       children: [
@@ -223,37 +261,81 @@ class _UserProfileState extends State<UserProfile> {
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 35.0, right: 35.0),
-                      child: TextFormField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: "Ahamd Mahmoud",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Name", // Replace with the actual label you want to use
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['name'] ?? '',
+                            );
+                          }
+                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                           top: 10.0, left: 35.0, right: 35.0),
-                      child: TextFormField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: "ahmadmahmoud@gmail.com",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>(
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText:
+                                    "Email", // Replace with the actual label you want to use
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['email'] ?? '',
+                            );
+                          }
+                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 10.0, left: 35.0, right: 35.0),
-                      child: TextFormField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
+                          top: 10.0, left: 35.0, right: 35.0, bottom: 10.0),
+                      child: FutureBuilder<Map<dynamic, dynamic>?>( 
+                        future: userData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error fetching user data');
+                          } else {
+                            return TextFormField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                labelText: "Industry",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              initialValue: snapshot.data?['industry'] ?? '',
+                            );
+                          }
+                        },
                       ),
                     ),
                     SizedBox(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:getdone/shared/widgets/task_item.dart';
 import 'package:getdone/shared/widgets/workspace_item.dart';
+import 'package:getdone/shared/widgets/user_detailse.dart';
+import 'package:animated_emoji/animated_emoji.dart';
 export 'home_page.dart';
 
 void handleLClick(c, p) {
@@ -60,17 +62,19 @@ class _HomepageState extends State<Homepage> {
     },
     {"workspaceTasks": "12", "workspaceTitle": "Physics", "width": "140"},
   ];
-  
-  // Map<dynamic,dynamic>?username;
-  // void fatchUserData()async{
-  //   FirebaseService fbs = FirebaseService();
-  //   Map<dynamic,dynamic> um = await fbs.getUserData();
-  //   if(um!=null){
-  //     usermap = um;
-  //   }else{
-  //     print("user not found");
-  //   }
-  // }
+
+  late Future<Map<dynamic, dynamic>?> userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = fetchUserData();
+  }
+
+  Future<Map<dynamic, dynamic>?> fetchUserData() async {
+    FirebaseService1 fbs = FirebaseService1();
+    return await fbs.getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,20 +98,44 @@ class _HomepageState extends State<Homepage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Hello Ahmad",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                          ),
-                          // usermap == null?
-                          // Text("user not found")
-                          // :
-                          // Text("Hello ${usermap![username]}",
-                          // style: TextStyle(
-                          //     fontSize: 17, fontWeight: FontWeight.bold),
-                          // ),
-                          Text(
-                            "Thrilled to Have you Here!",
-                            style: TextStyle(color: Colors.grey),
+                          FutureBuilder<Map<dynamic, dynamic>?>(
+                            future: userData,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                // Display a loading indicator while fetching data
+                                return CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                // Handle error if fetching data fails
+                                return Text('Error fetching user data');
+                              } else {
+                                // Display the user's name if data is successfully fetched
+                                String userName =
+                                    snapshot.data?['name'] ?? 'Unknown User';
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Hello $userName ",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold)),
+                                        AnimatedEmoji(
+                                          AnimatedEmojis.wave.medium,
+                                          size: 30,
+                                          repeat: true,
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      "Thrilled to Have you Here!",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -200,7 +228,7 @@ class _HomepageState extends State<Homepage> {
                           style: TextStyle(
                             fontSize: 16,
                           ),
-                        ), 
+                        ),
                         SizedBox(
                           width: 280,
                         ),
